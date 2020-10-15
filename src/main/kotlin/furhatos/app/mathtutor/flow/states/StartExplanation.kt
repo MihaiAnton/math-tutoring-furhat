@@ -26,7 +26,7 @@ fun StartExplanation(subject: MathMethod?): State = state(Interaction) {
             goto(DivisionIntro())
         }
         else if(method == PERCENTAGE){
-            goto(PercentageIntro)
+            goto(PercentageIntro())
         }
     }
 

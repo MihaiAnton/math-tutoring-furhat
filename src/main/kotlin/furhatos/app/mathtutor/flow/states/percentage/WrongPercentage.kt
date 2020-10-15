@@ -6,13 +6,13 @@ import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 
-fun WrongPercentage1 (total: Int? = null, share: Int? = null): State = state(Interaction) {
+fun WrongPercentage(total: Int? = null, share: Int? = null): State = state(Interaction){
     onEntry {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Wrong Percentage 1")
+        furhat.say("Wrong Percentage")
         delay(1000)
-        goto(PercentagesExplanation(total, share))
+        goto(PercentageIntro(total, share))
     }
 }

@@ -46,3 +46,15 @@ class DivisionExpressionResponse(val times: Number = Number(1), val value: Numbe
         return listOf("@value / @times", "@value divided by @times")
     }
 }
+
+class PercentageResponse(val fraction: Number = Number(1), val total: Number = Number(1)) : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("@fraction / @total", "@fraction divided by @total")
+    }
+}
+
+class PercentageResponse2(val fraction: Number = Number(1)) : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("@fraction / 100", "@fraction divided by 100", "@fraction", "@fraction percent")
+    }
+}
