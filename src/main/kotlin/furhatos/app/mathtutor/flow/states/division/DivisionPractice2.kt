@@ -2,6 +2,7 @@ package furhatos.app.mathtutor.flow.states.division;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.nlu.DivisionExpressionResponse
 import furhatos.app.mathtutor.nlu.DivisionResponse
 import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
@@ -9,7 +10,7 @@ import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 import kotlin.random.Random
 
-fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(Interaction) {
+fun DivisionPractice2(): State = state(Interaction) {
 
     val newPerDay = Random.nextInt(1, 10);
     val newTotal = newPerDay * Random.nextInt(2, 7);
@@ -18,17 +19,17 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Division Explanation")
+        furhat.say("Division Practice 2")
     }
 
     onResponse<DivisionResponse> {
-        val days = it.intent.days.value;
-        println(days);
-        println(newTotal / newPerDay)
-        if (days == newTotal / newPerDay) {
-            goto(DivisionPractice1(newPerDay, newTotal))
-        } else {
-            goto(WrongDivision1(newTotal, newPerDay))
+        val response = it.intent.days.value;
+
+        if(response == newTotal / newPerDay){
+            goto(DivisionFinal)
+        }
+        else{
+            goto(WrongDivision2(newTotal, newPerDay))
         }
     }
 

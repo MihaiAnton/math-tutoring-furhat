@@ -6,13 +6,13 @@ import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 
-fun WrongDivisionCalculation(total: Int? = null, perDay: Int? = null): State = state(Interaction) {
+fun WrongDivision2(total: Int? = null, perDay: Int? = null): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Wrong Division Calculation")
-        delay(1000)
-        goto(DivisionPractice1(total, perDay))
+        furhat.say("Wrong Division 2")
+        delay(1000);
+        goto(DivisionPractice2());
     }
 }
