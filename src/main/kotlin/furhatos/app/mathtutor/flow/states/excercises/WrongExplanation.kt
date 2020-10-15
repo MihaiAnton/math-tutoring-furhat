@@ -1,4 +1,4 @@
-package furhatos.app.mathtutor.flow.states;
+package furhatos.app.mathtutor.flow.states.excercises;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.flow.kotlin.furhat

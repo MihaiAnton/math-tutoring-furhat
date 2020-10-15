@@ -58,3 +58,29 @@ class PercentageResponse2(val fraction: Number = Number(1)) : ComplexEnumEntity(
         return listOf("@fraction / 100", "@fraction divided by 100", "@fraction", "@fraction percent")
     }
 }
+
+class CorrectDivisionResponse : EnumEntity()
+class CorrectMultiplicationResponse : EnumEntity()
+class CorrectPercentageResponse : EnumEntity()
+
+
+class NumericAnswer(val number: Number = Number(0)) : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("@number", "It is @number", "The answer is @number")
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
