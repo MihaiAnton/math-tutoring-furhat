@@ -1,4 +1,5 @@
-package furhatos.app.mathtutor.flow.states.addition;
+package furhatos.app.mathtutor.flow.states.multiplication
+
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
@@ -7,13 +8,13 @@ import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 
-fun WrongAddition2(x : Int): State = state(Interaction) {
+fun WrongMultiplication1(times: Int, value: Int): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Wrong Addition 2")
+        furhat.say("Wrong Multiplication 1")
         delay(1000)
-        goto(MultiplicationExample(x));
+        goto(MultiplicationPractice1(times, value));
     }
 }

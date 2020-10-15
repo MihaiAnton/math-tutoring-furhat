@@ -5,3 +5,32 @@ import furhatos.nlu.common.Number
 import furhatos.util.Language
 
 
+class StartIntent : Intent()
+
+class OptionsIntent : Intent()
+
+class MoreIntent : Intent()
+
+class MathMethod : EnumEntity()
+
+class ExercisesIntent : Intent()
+
+class ExplanationIntent : Intent()
+
+class LearningMathMethod(val subject : MathMethod? = null) : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("@subject")
+    }
+}
+
+class AdditionResponse(val sum: Number = Number(1), val objectName: String? = "") : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("@sum", "@sum @objectName", "We have @sum")
+    }
+}
+
+class MultiplicationResponse(val times: Number = Number(1), val value: Number = Number(1)): ComplexEnumEntity(){
+     override fun getEnum(lang: Language): List<String> {
+        return listOf("@times times @value", "@value times @times", "@times * @value", "@value * @times")
+    }
+}
