@@ -1,6 +1,7 @@
 package furhatos.app.mathtutor.flow
 
 import furhatos.app.mathtutor.DIVISION
+import furhatos.app.mathtutor.PERCENTAGE
 import furhatos.app.mathtutor.flow.states.*
 import furhatos.app.mathtutor.flow.states.division.DivisionIntro
 import furhatos.app.mathtutor.flow.states.excercises.Excercise
@@ -13,7 +14,7 @@ import furhatos.nlu.common.*
 val CustomGaze = RuleBasedGaze;
 val Start = state(Interaction) {
     onEntry {
-        goto(Excercise(DIVISION))
+        goto(Excercise(PERCENTAGE))
     }
 }
 
