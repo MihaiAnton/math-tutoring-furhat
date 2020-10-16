@@ -35,6 +35,21 @@ data class Question(val question: String,
                     val response: String,
                     val responseType: String) {}
 
+fun questionCount(type: String): Int {
+    when (type) {
+        DIVISION -> {
+            return 2
+        }
+        MULTIPLICATION -> {
+            return 2
+        }
+        PERCENTAGE -> {
+            return 4
+        }
+    }
+    return 0
+}
+
 fun randomQuestion(type: String, questionId: Int): Question {
 
     when (type) {

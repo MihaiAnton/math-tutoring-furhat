@@ -70,6 +70,12 @@ class NumericAnswer(val number: Number = Number(0)) : ComplexEnumEntity() {
     }
 }
 
+class StringAnswer(val response: String = "") : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("@response");
+    }
+}
+
 
 
 
