@@ -11,7 +11,7 @@ import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 
 
-fun StartTutorial(subject: MathMethod?): State = state(Interaction) {
+fun StartTutorial(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)

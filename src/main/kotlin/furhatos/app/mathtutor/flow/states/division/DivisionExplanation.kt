@@ -23,8 +23,6 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
 
     onResponse<DivisionResponse> {
         val days = it.intent.days.value;
-        println(days);
-        println(newTotal / newPerDay)
         if (days == newTotal / newPerDay) {
             goto(DivisionPractice1(newPerDay, newTotal))
         } else {

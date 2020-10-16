@@ -11,21 +11,19 @@ import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 
-fun StartExplanation(subject: MathMethod?): State = state(Interaction) {
+fun StartExplanation(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
         }
         furhat.say("Start Explanation")
 
-        val method = parseMathMethod(subject);
-        if(method == MULTIPLICATION){
+
+        if (subject == MULTIPLICATION) {
             goto(MultiplicationIntro())
-        }
-        else if(method == DIVISION){
+        } else if (subject == DIVISION) {
             goto(DivisionIntro())
-        }
-        else if(method == PERCENTAGE){
+        } else if (subject == PERCENTAGE) {
             goto(PercentageIntro())
         }
     }

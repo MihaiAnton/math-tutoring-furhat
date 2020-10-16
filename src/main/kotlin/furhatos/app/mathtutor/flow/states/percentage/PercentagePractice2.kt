@@ -38,7 +38,6 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
 
     onResponse<PercentageResponse2> {
         val fraction = it.intent.fraction.value;
-        println(fraction)
 
         if (fraction == _share * 5) {
             goto(PercentageFinal)

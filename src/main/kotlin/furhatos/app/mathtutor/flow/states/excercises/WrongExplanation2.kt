@@ -8,7 +8,7 @@ import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 
-fun WrongExplanation2(subject: MathMethod?): State = state(Interaction) {
+fun WrongExplanation2(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)

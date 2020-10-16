@@ -8,8 +8,9 @@ import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
+import software.amazon.ion.impl.PrivateIonConstants.False
 
-fun Excercise(subject: String?, excerciseId: Int = 0): State = state(Interaction)
+fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false): State = state(Interaction)
 {
 
     var _responseType = ""
@@ -20,11 +21,10 @@ fun Excercise(subject: String?, excerciseId: Int = 0): State = state(Interaction
             goto(CustomGaze)
         }
 
-        println(users.current.correctAnswers.toString() + " " + users.current.wrongAnswers.toString())
 
         val numberOfQuestions = questionCount(subject.toString())
-        if (excerciseId < numberOfQuestions) {
-            if (excerciseId != 0) {
+        if (!redoWrong && exerciseId < numberOfQuestions) {
+            if (exerciseId != 0) {
                 random(
                         { furhat.say("Ok, next question...") },
                         { furhat.say("Next one...") },
@@ -38,62 +38,76 @@ fun Excercise(subject: String?, excerciseId: Int = 0): State = state(Interaction
                         { furhat.say("Lets start with...") }
                 )
             }
-            val question = randomQuestion(subject.toString(), excerciseId)
 
+            val question = randomQuestion(subject.toString(), exerciseId)
+            users.current.questions.add(question);
             _responseType = question.responseType
-            println(_responseType)
             _question = question
+
             furhat.ask(question.question)
+            furhat.listen(endSil = 2000, maxSpeech = 30 * 1000)
+        } else if (redoWrong && exerciseId < users.current.wrongQuestions.size) {
+            _responseType = users.current.wrongQuestions[exerciseId].responseType
+            _question = users.current.wrongQuestions[exerciseId]
+
+            furhat.ask(_question!!.question)
             furhat.listen(endSil = 2000, maxSpeech = 30 * 1000)
         } else {
             furhat.say("We're done with the exercises, let's see how you've done")
-            goto(ExcerciseEvaluation)
+            goto(ExerciseEvaluation(subject))
         }
     }
 
     onResponse<Yes> {
         if (_question != null && _responseType == YES_NO_RESPONSE && _question!!.response == "Yes") {
-            users.current.correctAnswers++
+            if (!redoWrong) users.current.correctAnswers++
+            if (redoWrong) users.current.wrongAnswers--
         } else if (_question != null && _responseType == YES_NO_RESPONSE && _question!!.response == "No") {
-            users.current.wrongAnswers++
+            if (!redoWrong) users.current.wrongAnswers++
+            if (!redoWrong) users.current.wrongQuestions.add(_question!!)
         }
-        goto(Excercise(subject, excerciseId + 1))
+        goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
 
     onResponse<No> {
         if (_question != null && _responseType == YES_NO_RESPONSE && _question!!.response == "No") {
-            users.current.correctAnswers++
-
+            if (!redoWrong) users.current.correctAnswers++
+            if (redoWrong) users.current.wrongAnswers--
         } else if (_question != null && _responseType == YES_NO_RESPONSE && _question!!.response == "Yes") {
-            users.current.wrongAnswers++
+            if (!redoWrong) users.current.wrongAnswers++
+            if (!redoWrong) users.current.wrongQuestions.add(_question!!)
         }
-        goto(Excercise(subject, excerciseId + 1))
+        goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
 
     onResponse<NumericAnswer> {
         val result = it.intent.number;
         if (_question != null && _responseType == INTEGER_RESPONSE && _question!!.response.toInt() == result.value) {
-            users.current.correctAnswers++;
+            if (!redoWrong) users.current.correctAnswers++
+            if (redoWrong) users.current.wrongAnswers--
         } else {
-            users.current.wrongAnswers++;
+            if (!redoWrong) users.current.wrongAnswers++
+            if (!redoWrong) users.current.wrongQuestions.add(_question!!)
         }
-        goto(Excercise(subject, excerciseId + 1))
+        goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
 
     onResponse<StringAnswer> {
         val result = it.intent.response;
         if (_question != null && _responseType == STRING_RESPONSE && _question!!.response == result) {
-            users.current.correctAnswers++;
+            if (!redoWrong) users.current.correctAnswers++
+            if (redoWrong) users.current.wrongAnswers--
         } else {
-            users.current.wrongAnswers++;
+            if (!redoWrong) users.current.wrongAnswers++;
+            if (!redoWrong) users.current.wrongQuestions.add(_question!!)
         }
-        goto(Excercise(subject, excerciseId + 1))
+        goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
 
-
     onResponse {
-        users.current.wrongAnswers++;
-        goto(Excercise(subject, excerciseId + 1))
+        if (!redoWrong) users.current.wrongAnswers++;
+        if (!redoWrong) users.current.wrongQuestions.add(_question!!)
+        goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
 
 }

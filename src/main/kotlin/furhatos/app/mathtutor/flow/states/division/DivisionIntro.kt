@@ -33,8 +33,6 @@ fun DivisionIntro(total: Int? = null, perDay : Int? = null): State = state(Inter
 
     onResponse<DivisionResponse> {
         val days = it.intent.days.value;
-        println(days);
-        println(_applesTotal / _perDay)
         if(days == _applesTotal / _perDay){
             goto(DivisionExplanation(_perDay, _applesTotal))
         }

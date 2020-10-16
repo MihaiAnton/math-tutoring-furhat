@@ -15,7 +15,7 @@ import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 
-fun WrongExplanation1(subject: MathMethod?): State = state(Interaction) {
+fun WrongExplanation1(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
@@ -23,18 +23,17 @@ fun WrongExplanation1(subject: MathMethod?): State = state(Interaction) {
         furhat.say("Wrong Explanation 1")
     }
 
-    val method = parseMathMethod(subject);
-    if (method == MULTIPLICATION) {
+    if (subject == MULTIPLICATION) {
         onResponse<CorrectMultiplicationResponse> {
-            goto(StartExcercises(method))
+            goto(StartExcercises(subject))
         }
-    } else if (method == DIVISION) {
+    } else if (subject == DIVISION) {
         onResponse<CorrectDivisionResponse> {
-            goto(StartExcercises(method))
+            goto(StartExcercises(subject))
         }
-    } else if (method == PERCENTAGE) {
+    } else if (subject == PERCENTAGE) {
         onResponse<CorrectPercentageResponse> {
-            goto(StartExcercises(method))
+            goto(StartExcercises(subject))
         }
     }
 

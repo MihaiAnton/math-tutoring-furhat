@@ -11,7 +11,7 @@ class OptionsIntent : Intent()
 
 class MoreIntent : Intent()
 
-class MathMethod : EnumEntity()
+class MathMethod() : EnumEntity()
 
 class ExercisesIntent : Intent()
 
@@ -76,13 +76,13 @@ class StringAnswer(val response: String = "") : ComplexEnumEntity() {
     }
 }
 
+class IKnowItResponse : EnumEntity()
 
+class StopSessionIntent : Intent()
 
+class MoreExercisesIntent : Intent()
 
-
-
-
-
+class DifferentCalculationIntent : Intent()
 
 
 

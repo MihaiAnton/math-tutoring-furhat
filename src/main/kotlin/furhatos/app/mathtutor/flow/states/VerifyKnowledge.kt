@@ -17,27 +17,27 @@ import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 
-fun VerifyKnowledge(subject: MathMethod?): State = state(Interaction) {
+fun VerifyKnowledge(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Verify Knowledge")
+        furhat.say("Verify Knowledge on " + subject.toString())
         furhat.listen()
     }
 
-    val method = parseMathMethod(subject);
-    if (method == MULTIPLICATION) {
+
+    if (subject == MULTIPLICATION) {
         onResponse<CorrectMultiplicationResponse> {
-            goto(StartExcercises(method))
+            goto(StartExcercises(subject))
         }
-    } else if (method == DIVISION) {
+    } else if (subject == DIVISION) {
         onResponse<CorrectDivisionResponse> {
-            goto(StartExcercises(method))
+            goto(StartExcercises(subject))
         }
-    } else if (method == PERCENTAGE) {
+    } else if (subject == PERCENTAGE) {
         onResponse<CorrectPercentageResponse> {
-            goto(StartExcercises(method))
+            goto(StartExcercises(subject))
         }
     }
 

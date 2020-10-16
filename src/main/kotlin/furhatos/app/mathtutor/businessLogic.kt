@@ -1,6 +1,8 @@
 package furhatos.app.mathtutor
 
 import furhatos.app.mathtutor.nlu.MathMethod
+import furhatos.flow.kotlin.users
+import furhatos.records.User
 
 
 const val MULTIPLICATION = "multiplication"
@@ -26,6 +28,16 @@ fun parseMathMethod(method: MathMethod?): String? {
     return null;
 }
 
+fun resetUserExerciseData(user: User) {
+    user.wrongAnswers = 0
+    user.correctAnswers = 0
+    user.questions.clear()
+    user.wrongQuestions.clear()
+    user.attemptsMultiplication = 0
+    user.attemptsDivision = 0
+    user.attemptsPercentage = 0
+}
+
 const val INTEGER_RESPONSE = "integer_response"
 const val STRING_RESPONSE = "string_response"
 const val YES_NO_RESPONSE = "yes_no_response"
@@ -44,7 +56,7 @@ fun questionCount(type: String): Int {
             return 2
         }
         PERCENTAGE -> {
-            return 4
+            return 2
         }
     }
     return 0
