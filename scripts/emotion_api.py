@@ -16,7 +16,7 @@ cap = cv2.VideoCapture(0)
 
 BATCH_SIZE = 1
 DIMENSION_SIZE = 96
-MODEL_PATH = 'resources/trained_model/model.ckpt-975'
+MODEL_PATH = 'resources/4096x4096x2/model.ckpt-975'
 
 
 def get_image():
