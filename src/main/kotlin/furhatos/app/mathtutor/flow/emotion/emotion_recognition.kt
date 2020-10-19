@@ -12,6 +12,6 @@ fun getEmotionFromApi() : State = state {
         val values = response.split(' ')
         users.current.valence = values[0].toDouble()
         users.current.arousal = values[1].toDouble()
-        println("alence: ${users.current.valence}, arousal: ${users.current.arousal}")
+        println("Valence: ${users.current.valence}, arousal: ${users.current.arousal}")
     }
 }
