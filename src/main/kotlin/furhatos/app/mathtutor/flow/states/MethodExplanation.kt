@@ -1,4 +1,4 @@
-package furhatos.app.mathtutor.flow.states.multiplication;
+package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.flow.kotlin.furhat
@@ -10,5 +10,7 @@ val MethodExplanation = state {
             goto(CustomGaze)
         }
         furhat.say("Method Explanation")
+        delay(1000)
+        goto(OptionsSelection)
     }
 }
