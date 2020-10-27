@@ -2,6 +2,8 @@ package furhatos.app.mathtutor.flow.states.multiplication;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.states.addition.WrongAddition1
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -28,8 +30,17 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Multiplication Intro, $_x1 and $_x1")
-        furhat.listen()
+        if (debugMode()) {
+            furhat.say("Multiplication Intro, $_x1 and $_x1")
+        } else {
+            furhat.say("Imagine I have $_x1 apples, and you have $_x1 apples as well. How many apples do we " +
+                    "have together?")
+        }
+        furhat.listen(timeout=15000)
+    }
+
+    onReentry {
+        furhat.listen(timeout=8000)
     }
 
     onResponse<AdditionResponse> {
@@ -44,5 +55,10 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
             resetWrongAnswers(users.current)
             goto(MultiplicationExample(_x1))
         }
+    }
+
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 }

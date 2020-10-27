@@ -3,6 +3,7 @@ package furhatos.app.mathtutor.flow.states;
 import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.states.division.DivisionIntro
 import furhatos.app.mathtutor.flow.states.multiplication.MultiplicationIntro
 import furhatos.app.mathtutor.flow.states.percentage.PercentageIntro
@@ -16,7 +17,14 @@ fun StartExplanation(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Start Explanation")
+        if (debugMode()) {
+            furhat.say("Start Explanation")
+        } else {
+            random(
+                    {furhat.say("Okay, let's start the explanation of $subject.")},
+                    {furhat.say("Alright, let's continue with $subject.")}
+            )
+        }
 
 
         if (subject == MULTIPLICATION) {

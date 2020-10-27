@@ -3,6 +3,8 @@ package furhatos.app.mathtutor.flow.states.multiplication
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.nlu.MultiplicationResponse
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -14,8 +16,17 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Multiplication Practice 2")
-        furhat.listen();
+        if (debugMode()) {
+            furhat.say("Multiplication Practice 2")
+        } else {
+            furhat.say("You are doing very well. Following this method, tell me what happens if two more people " +
+                    "with $x apples join. More specifically, what is the solution of five times $x?")
+        }
+        furhat.listen(timeout = 20000)
+    }
+
+    onReentry {
+        furhat.listen(timeout = 10000)
     }
 
     onResponse<AdditionResponse> {
@@ -26,5 +37,10 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
             wrongAnswer(users.current)
             goto(WrongMultiplication2(x));
         }
+    }
+
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 }

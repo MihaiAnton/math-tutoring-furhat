@@ -1,6 +1,8 @@
 package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.MoreIntent
 import furhatos.app.mathtutor.nlu.StartIntent
 import furhatos.flow.kotlin.furhat
@@ -12,8 +14,17 @@ val OptionsIntro = state {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Options Intro")
-        furhat.listen()
+        if (debugMode()) {
+            furhat.say("Options Intro")
+        } else {
+            furhat.say("Alright. We offer tutoring for multiplication, division and percentage calculations. Are " +
+                    "you ready to make a choice and start the session or do you want more information?")
+        }
+        furhat.listen(timeout = 6000)
+    }
+
+    onReentry {
+        furhat.listen(timeout = 4000)
     }
 
     onResponse<StartIntent> {
@@ -22,5 +33,10 @@ val OptionsIntro = state {
 
     onResponse<MoreIntent> {
         goto(MethodExplanation)
+    }
+
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 }

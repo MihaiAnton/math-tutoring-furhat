@@ -2,11 +2,12 @@ package furhatos.app.mathtutor.flow.states.division;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.DivisionResponse
-import furhatos.flow.kotlin.State
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.app.mathtutor.resetWrongAnswers
+import furhatos.app.mathtutor.wrongAnswer
+import furhatos.flow.kotlin.*
 import kotlin.random.Random
 
 fun DivisionIntro(total: Int? = null, perDay : Int? = null): State = state(Interaction) {
@@ -27,19 +28,34 @@ fun DivisionIntro(total: Int? = null, perDay : Int? = null): State = state(Inter
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Division Intro")
-        furhat.listen()
+        if (debugMode()) {
+            furhat.say("Division Intro")
+        } else {
+            furhat.say("Imagine I pick $_perDay apples for every day this week. If, at some point, I have " +
+                    "$_applesTotal apples, how many days have I been picking apples?")
+        }
+        furhat.listen(timeout = 30000)
+    }
+
+    onReentry {
+        furhat.listen(timeout = 15000)
     }
 
     onResponse<DivisionResponse> {
         val days = it.intent.days.value;
         if(days == _applesTotal / _perDay){
+            resetWrongAnswers(users.current)
             goto(DivisionExplanation(_perDay, _applesTotal))
         }
         else{
+            wrongAnswer(users.current)
             goto(WrongDivision(_applesTotal, _perDay))
         }
     }
 
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
+    }
 
 }

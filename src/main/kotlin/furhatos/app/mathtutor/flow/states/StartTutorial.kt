@@ -2,6 +2,8 @@ package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.ExercisesIntent
 import furhatos.app.mathtutor.nlu.ExplanationIntent
 import furhatos.app.mathtutor.nlu.MathMethod
@@ -16,8 +18,17 @@ fun StartTutorial(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Start Tutorial on $subject")
-        furhat.listen()
+        if (debugMode()) {
+            furhat.say("Start Tutorial on $subject")
+        } else {
+            furhat.say("Very well, let's begin. Do you want to hear the explanation of $subject, or get right to " +
+                    "the exercises?")
+        }
+        furhat.listen(timeout = 6000)
+    }
+
+    onReentry {
+        furhat.listen(timeout = 4000)
     }
 
     onResponse<ExercisesIntent> {
@@ -26,6 +37,11 @@ fun StartTutorial(subject: String?): State = state(Interaction) {
 
     onResponse<ExplanationIntent> {
         goto(StartExplanation(subject))
+    }
+
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 }
 

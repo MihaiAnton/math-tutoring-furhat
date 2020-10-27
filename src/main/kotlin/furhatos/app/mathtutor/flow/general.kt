@@ -7,6 +7,12 @@ import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.*
 import furhatos.util.Language
 
+
+// Change this to false to run the full mode that includes all spoken texts.
+fun debugMode(): Boolean {
+    return true
+}
+
 val Idle : State = state {
     /*
         On the first run only, if we have users in interaction

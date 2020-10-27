@@ -2,6 +2,8 @@ package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.nlu.DifferentCalculationIntent
 import furhatos.app.mathtutor.nlu.MoreExercisesIntent
@@ -16,7 +18,22 @@ fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("All Answers Correct")
+        if (debugMode()) {
+            furhat.say("All Answers Correct")
+        } else {
+            random(
+                    {furhat.say("You did very well, I am impressed! Now, do you want do some more exercises, " +
+                            "practice different calculations, or stop the session?")},
+                    {furhat.say("That was a good session, very nicely done! Now, tell me if you want do some " +
+                            "more exercises, practice different calculations, or stop the session.")},
+                    {furhat.say("I am very happy with this result, well done! Now, what do you want to do next?" +
+                            "Do more exercises, practice different calculations, or stop the session?")}
+            )
+        }
+        furhat.listen(timeout = 10000)
+    }
+
+    onReentry {
         furhat.listen(timeout = 10000)
     }
 
@@ -30,5 +47,10 @@ fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
 
     onResponse<DifferentCalculationIntent> {
         goto(OptionsSelection)
+    }
+
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 }

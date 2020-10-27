@@ -4,10 +4,9 @@ import furhatos.app.mathtutor.DIVISION
 import furhatos.app.mathtutor.MULTIPLICATION
 import furhatos.app.mathtutor.PERCENTAGE
 import furhatos.app.mathtutor.flow.CustomGaze
-import furhatos.app.mathtutor.nlu.CorrectDivisionResponse
-import furhatos.app.mathtutor.nlu.CorrectMultiplicationResponse
-import furhatos.app.mathtutor.nlu.CorrectPercentageResponse
-import furhatos.app.mathtutor.nlu.LearningMathMethod
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.nlu.*
 import furhatos.app.mathtutor.parseMathMethod
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
@@ -18,8 +17,23 @@ val OptionsSelection = state {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Options Selection")
-        furhat.listen()
+        if (debugMode()) {
+            furhat.say("Options Selection")
+        } else {
+            random(
+                    {furhat.say("Please tell me which calculation you want to practice.")},
+                    {furhat.say("Which calculation method do you want to practice?")}
+            )
+        }
+        furhat.listen(timeout = 6000)
+    }
+
+    onReentry {
+        if (reentryCount > 2) {
+            goto(UnwillingUserIntro)
+        } else {
+            furhat.listen(timeout = 4000)
+        }
     }
 
     onResponse<LearningMathMethod> {
@@ -28,7 +42,12 @@ val OptionsSelection = state {
 
     }
 
+    onResponse<UnwillingIntent> {
+        goto(UnwillingUserIntro)
+    }
+
     onResponse {
-        goto(UnwillingUserIntro);
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 }

@@ -3,6 +3,7 @@ package furhatos.app.mathtutor.flow.states;
 import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.isConfident
 import furhatos.app.mathtutor.flow.states.division.DivisionIntro
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
@@ -22,16 +23,21 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Verify Knowledge on " + subject.toString())
+        if (debugMode()) {
+            furhat.say("Verify Knowledge on $subject.")
+        } else {
+            furhat.say("Let's see about that knowledge. Can you explain how to compute a $subject?")
+        }
+
         furhat.listen(timeout = 30000)
     }
 
     onTime(delay = 40000) {
-        goto(goto(WrongExplanation2(subject)))
+        goto(WrongExplanation2(subject))
     }
 
     onResponse<No> {
-        goto(goto(WrongExplanation2(subject)))
+        goto(WrongExplanation2(subject))
     }
 
 

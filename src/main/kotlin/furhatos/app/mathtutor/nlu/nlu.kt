@@ -84,6 +84,8 @@ class MoreExercisesIntent : Intent()
 
 class DifferentCalculationIntent : Intent()
 
+class UnwillingIntent: Intent()
+
 
 
 

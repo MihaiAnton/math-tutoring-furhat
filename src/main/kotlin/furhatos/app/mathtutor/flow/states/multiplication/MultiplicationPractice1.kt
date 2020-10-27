@@ -1,7 +1,9 @@
-package furhatos.app.mathtutor.flow.states.multiplication;
+package furhatos.app.mathtutor.flow.states.multiplication
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.MultiplicationResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
@@ -12,8 +14,16 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Multiplication Practice 1")
-        furhat.listen();
+        if (debugMode()) {
+            furhat.say("Multiplication Practice 1")
+        } else {
+            furhat.say("Very well. Can you tell me  how we can formulate this as a multiplication?")
+        }
+        furhat.listen(timeout = 10000)
+    }
+
+    onReentry {
+        furhat.listen(timeout=6000)
     }
 
     onResponse<MultiplicationResponse> {
@@ -27,6 +37,11 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
             wrongAnswer(users.current)
             goto(WrongMultiplication1(times, value))
         }
+    }
+
+    onResponse {
+        furhat.say(getUncaughtResponseText())
+        reentry()
     }
 
 }
