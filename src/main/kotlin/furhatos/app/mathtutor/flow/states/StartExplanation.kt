@@ -22,7 +22,10 @@ fun StartExplanation(subject: String?): State = state(Interaction) {
         } else {
             random(
                     {furhat.say("Okay, let's start the explanation of $subject.")},
-                    {furhat.say("Alright, let's continue with $subject.")}
+                    {furhat.say("Alright, let's continue with $subject.")},
+                    {furhat.say("Good. Then I will now tell you all about $subject.")},
+                    {furhat.say("Great, let me explain $subject to you then.")},
+                    {furhat.say("Amazing, let's start with the explanation of computing ${subject}s.")}
             )
         }
 

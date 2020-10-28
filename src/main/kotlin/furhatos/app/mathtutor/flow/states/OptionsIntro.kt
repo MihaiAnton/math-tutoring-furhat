@@ -18,7 +18,7 @@ val OptionsIntro = state {
             furhat.say("Options Intro")
         } else {
             furhat.say("Alright. We offer tutoring for multiplication, division and percentage calculations. Are " +
-                    "you ready to make a choice and start the session or do you want more information?")
+                    "you ready to make a choice between these and start the session, or do you want more information?")
         }
         furhat.listen(timeout = 6000)
     }

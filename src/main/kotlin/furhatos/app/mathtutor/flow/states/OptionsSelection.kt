@@ -22,7 +22,9 @@ val OptionsSelection = state {
         } else {
             random(
                     {furhat.say("Please tell me which calculation you want to practice.")},
-                    {furhat.say("Which calculation method do you want to practice?")}
+                    {furhat.say("Which calculation method do you want to practice?")},
+                    {furhat.say("Please tell me which method of calculation you wish to practice.")},
+                    {furhat.say("What is the calulation method that you want to practice?")}
             )
         }
         furhat.listen(timeout = 6000)
@@ -32,7 +34,8 @@ val OptionsSelection = state {
         if (reentryCount > 2) {
             goto(UnwillingUserIntro)
         } else {
-            furhat.listen(timeout = 4000)
+            furhat.say("Remember, you can choose between multiplication, division, and percentages.")
+            furhat.listen(timeout = 6000)
         }
     }
 

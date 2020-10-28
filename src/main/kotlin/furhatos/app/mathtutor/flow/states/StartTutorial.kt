@@ -21,14 +21,22 @@ fun StartTutorial(subject: String?): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Start Tutorial on $subject")
         } else {
-            furhat.say("Very well, let's begin. Do you want to hear the explanation of $subject, or get right to " +
-                    "the exercises?")
+            random(
+                    {furhat.say("Very well, let's begin. Do you want to hear the explanation of $subject, or get " +
+                            "right to the exercises?")},
+                    {furhat.say("Okay, let's start. Do you want to do exercises right away, or first hear the " +
+                            "explanation of $subject?")},
+                    {furhat.say("Let's begin then. Do you want to learn the theory of $subject, or do you want " +
+                            "to go straight to the exercises?")},
+                    {furhat.say("Time to begin then. Do you wish to hear the theory behind $subject, or go " +
+                            "immediately to the exercises?")}
+            )
         }
         furhat.listen(timeout = 6000)
     }
 
     onReentry {
-        furhat.listen(timeout = 4000)
+        furhat.listen(timeout = 6000)
     }
 
     onResponse<ExercisesIntent> {
