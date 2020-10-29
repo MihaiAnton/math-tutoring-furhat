@@ -10,33 +10,13 @@ import furhatos.gestures.Gestures
 import furhatos.records.User
 
 fun reactToEmotion(): State = state {
-
-
     onTime(0, 1000) {
-//        while (true) {
-            try {
-                getEmotionFromApi(users.current)
-            } catch (e: NumberFormatException) {
-
-            }
-
-
-            println("Reacting")
-
-            val arousal = users.current.rollingArousal;
-            val valence = users.current.rollingValence;
-
-            if (arousal < 0 && valence < 0) {
-                furhat.gesture(Gestures.ExpressSad(strength = 0.4), async = false)
-            } else if (arousal > 0 && valence < 0) {
-                furhat.gesture(Gestures.ExpressFear(strength = 0.4), async = false)
-            } else if (arousal < 0 && valence > 0) {
-                furhat.gesture(Gestures.Thoughtful(strength = 0.4), async = false)
-            } else {
-                furhat.gesture(Gestures.Smile(strength = 0.4), async = false)
-            }
-//        }
-
+        val userEmotion = getEmotionFromApi(users.current)
+        when {
+            userEmotion.name == "frustrated" -> furhat.gesture(Gestures.Thoughtful(strength = userEmotion.arousal, duration = 2.0), async = false)
+            userEmotion.name == "satisfied" -> furhat.gesture(Gestures.Smile(strength = userEmotion.arousal, duration = 2.0), async = false)
+            userEmotion.name == "excited" -> furhat.gesture(Gestures.BigSmile(strength = userEmotion.arousal, duration = 2.0), async = false)
+        }
     }
 }
 

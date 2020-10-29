@@ -10,7 +10,7 @@ import furhatos.util.Language
 
 // Change this to false to run the full mode that includes all spoken texts.
 fun debugMode(): Boolean {
-    return true
+    return false
 }
 
 val Idle : State = state {

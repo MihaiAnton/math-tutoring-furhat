@@ -18,13 +18,12 @@ val InitialState = state {
     onEntry {
         // Change the default thresholds:
 
-
-        getEmotionFromApi(users.current)
         parallel {
             goto(CustomGaze)
         }
-
-
+        parallel {
+            goto(reactToEmotion())
+        }
 
         if (debugMode()) {
             furhat.say("Initial State")
@@ -41,9 +40,6 @@ val InitialState = state {
             )
         }
 
-        parallel {
-            goto(reactToEmotion())
-        }
         furhat.listen(timeout = 20000);
     }
 

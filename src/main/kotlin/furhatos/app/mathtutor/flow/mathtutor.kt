@@ -20,12 +20,7 @@ import furhatos.nlu.common.*
 val CustomGaze = RuleBasedGaze;
 val Start = state(Interaction) {
     onEntry {
-
-        parallel{
-            getEmotionFromApi(users.current)
-        }
-
-        goto(StartExercises(PERCENTAGE))
+        goto(InitialState)
     }
 //
 //    onTime(0, 1000){

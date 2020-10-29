@@ -1,6 +1,5 @@
 package furhatos.app.mathtutor
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import furhatos.app.mathtutor.nlu.MathMethod
 import furhatos.flow.kotlin.users
 import furhatos.nlu.common.Time
