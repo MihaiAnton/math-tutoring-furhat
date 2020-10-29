@@ -86,6 +86,8 @@ class DifferentCalculationIntent : Intent()
 
 class UnwillingIntent: Intent()
 
+class Unsure: Intent()
+
 
 
 
