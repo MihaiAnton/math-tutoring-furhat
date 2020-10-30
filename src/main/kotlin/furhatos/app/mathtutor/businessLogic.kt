@@ -82,7 +82,7 @@ fun randomQuestion(type: String, questionId: Int): Question {
 }
 
 fun randomMultiplicationQuestion(questionId: Int): Question {
-    val r = Random(1);
+    val r = Random(Random.nextInt());
     val a = r.nextInt(1, 9);
     val b = r.nextInt(1, 9);
     val c = r.nextInt(1, 9);
@@ -110,7 +110,7 @@ fun randomMultiplicationQuestion(questionId: Int): Question {
 }
 
 fun randomDivisionQuestion(questionId: Int): Question {
-    val r = Random(1);
+    val r = Random(Random.nextInt());
     val a = r.nextInt(1, 9);
     val b = r.nextInt(1, 9);
     val factor = r.nextInt(1, 9);
@@ -138,7 +138,7 @@ fun randomDivisionQuestion(questionId: Int): Question {
 }
 
 fun randomPercentageQuestion(questionId: Int): Question {
-    val r = Random(1);
+    val r = Random(Random.nextInt());
     val a = r.nextInt(1, 90);
     val b = r.nextInt(1, 9);
 
@@ -174,9 +174,41 @@ fun wrongAnswer(user: User) {
 
 fun isCorrectPercentage(input: String, percentage: Int): Boolean {
     val s = input.trimStart().trimEnd();
-    
+
     if (s == "$percentage%" || s == "$percentage %" || s == "$percentage percent") {
         return true;
     }
     return false;
+}
+
+/**
+ * Returns random advice for a specific method.
+ * Useful in "Exercise wrong 1"
+ */
+fun randomHint(type: String): String {
+    when (type) {
+        DIVISION -> {
+            val stringList = listOf(
+                    "Keep in mind, if I have 10 apples and eat 5 a day, I'll only have them for today and tomorrow.",
+                    "Remember, If someone gives us 4 pens and we evenly split them, we'll both have 2"
+            )
+            return stringList.shuffled().take(1)[0]
+
+        }
+        MULTIPLICATION -> {
+            val stringList = listOf(
+                    "Try to think a bit more. For example, If you and I write a story a day for one week, we'll end up having 14 stories.",
+                    "If you eat 2 apples today and tomorrow you eat twice, you'll end up eating 6 apples."
+            )
+            return stringList.shuffled().take(1)[0]
+        }
+        PERCENTAGE -> {
+            val stringList = listOf(
+                    "Remember that when 2 quantities add up to 100, each of them is the percentage of the total.",
+                    "Keep in mind that the size of the numbers does not matter. 0.9 is still 90% if the total is 1."
+            )
+            return stringList.shuffled().take(1)[0]
+        }
+    }
+    return "";
 }

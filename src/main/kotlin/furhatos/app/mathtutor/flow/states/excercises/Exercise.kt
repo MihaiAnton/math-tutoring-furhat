@@ -54,8 +54,13 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
             furhat.say(_question!!.question)
             furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)
         } else {
-            furhat.say("We're done with the exercises, let's see how you've done")
-            goto(ExerciseEvaluation(subject))
+            if (!redoWrong) {
+                // TODO more randomness
+                furhat.say("We're done with the exercises, let's see how you've done.")
+            } else {
+                // TODO more randomness
+                furhat.say("Let's see if you got them right on the second try.")
+            }
         }
     }
 
