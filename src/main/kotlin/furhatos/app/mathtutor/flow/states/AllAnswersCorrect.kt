@@ -22,16 +22,26 @@ fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
             furhat.say("All Answers Correct")
         } else {
             random(
-                    {furhat.say("You did very well, I am impressed! Now, do you want do some more exercises, " +
-                            "practice different calculations, or stop the session?")},
-                    {furhat.say("That was a good session, very nicely done! Now, tell me if you want do some " +
-                            "more exercises, practice different calculations, or stop the session.")},
-                    {furhat.say("I am very happy with this result, well done! Now, what do you want to do next?" +
-                            "Do more exercises, practice different calculations, or stop the session?")},
-                    {furhat.say("Super, that is a great achievement! Do you want to continue with the exercises " +
-                            "or would you rather practice a different calculation method?")},
-                    {furhat.say("Amazing work this session, well done! So do you want to do another round of " +
-                            "these exercises, or would you rather hear about a different calculation method?")}
+                    {
+                        furhat.say("You did very well, I am impressed! Now, do you want do some more exercises, " +
+                                "practice different calculations, or stop the session?")
+                    },
+                    {
+                        furhat.say("That was a good session, very nicely done! Now, tell me if you want do some " +
+                                "more exercises, practice different calculations, or stop the session.")
+                    },
+                    {
+                        furhat.say("I am very happy with this result, well done! Now, what do you want to do next?" +
+                                "Do more exercises, practice different calculations, or stop the session?")
+                    },
+                    {
+                        furhat.say("Super, that is a great achievement! Do you want to continue with the exercises " +
+                                "or would you rather practice a different calculation method?")
+                    },
+                    {
+                        furhat.say("Amazing work this session, well done! So do you want to do another round of " +
+                                "these exercises, or would you rather hear about a different calculation method?")
+                    }
             )
         }
         furhat.listen(timeout = 10000)
@@ -42,7 +52,7 @@ fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
     }
 
     onResponse<StopSessionIntent> {
-        goto(FinalState)
+        goto(FinalState())
     }
 
     onResponse<MoreExercisesIntent> {
