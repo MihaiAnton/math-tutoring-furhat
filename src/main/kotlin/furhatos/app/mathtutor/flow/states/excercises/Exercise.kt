@@ -3,6 +3,7 @@ package furhatos.app.mathtutor.flow.states.excercises;
 import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.NumericAnswer
 import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.flow.kotlin.*
@@ -52,6 +53,9 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
             _question = users.current.wrongQuestions[exerciseId]
 
             furhat.say(_question!!.question)
+            parallel {
+                goto(reactToEmotion())
+            }
             furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)
         } else {
             if (!redoWrong) {

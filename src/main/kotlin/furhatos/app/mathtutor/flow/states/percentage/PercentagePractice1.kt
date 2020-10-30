@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage1
 import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage2
 import furhatos.app.mathtutor.nlu.MultiplicationResponse
@@ -27,10 +28,16 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
                     "then multiplying this result with 100. Using this method, can you tell me what is the " +
                     "percentage of my marbles if I have 1 and there are 2 in total?")
         }
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 20000);
     }
 
     onReentry {
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 10000)
     }
 

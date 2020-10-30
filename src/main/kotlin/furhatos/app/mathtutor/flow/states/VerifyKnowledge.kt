@@ -5,6 +5,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.isConfident
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.division.DivisionIntro
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation1
@@ -27,17 +28,20 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
             furhat.say("Verify Knowledge on $subject.")
         } else {
             random(
-                    {furhat.say("Let's see about that knowledge. Can you explain how to compute a $subject?")},
-                    {furhat.say("Alright, then tell me how you should compute a $subject")},
-                    {furhat.say("Let me verify your knowledge. How should someone compute a $subject")},
-                    {furhat.say("Okay, I'll now check your knowledge. How do you go about computing a $subject")},
-                    {furhat.say("Okay, then how should you compute a $subject")},
-                    {furhat.say("Very well. Just to verify, can you tell me how to compute a $subject")},
-                    {furhat.say("Okay then, how should you compute a $subject")},
-                    {furhat.say("Great! Then please tell me how to compute a $subject")}
+                    { furhat.say("Let's see about that knowledge. Can you explain how to compute a $subject?") },
+                    { furhat.say("Alright, then tell me how you should compute a $subject") },
+                    { furhat.say("Let me verify your knowledge. How should someone compute a $subject") },
+                    { furhat.say("Okay, I'll now check your knowledge. How do you go about computing a $subject") },
+                    { furhat.say("Okay, then how should you compute a $subject") },
+                    { furhat.say("Very well. Just to verify, can you tell me how to compute a $subject") },
+                    { furhat.say("Okay then, how should you compute a $subject") },
+                    { furhat.say("Great! Then please tell me how to compute a $subject") }
             )
         }
 
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 30000)
     }
 

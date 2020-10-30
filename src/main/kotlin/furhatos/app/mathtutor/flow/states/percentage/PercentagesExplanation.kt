@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.division.DivisionExplanation
 import furhatos.app.mathtutor.flow.states.division.DivisionPractice1
 import furhatos.app.mathtutor.flow.states.multiplication.PercentagePractice1
@@ -31,11 +32,17 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
                     "of these items, we can always express this number as a percentage. If there are $newTotal " +
                     "marbles still, and I have $newShare, what is the percentage of marbles I have?")
         }
-        furhat.listen(timeout=15000)
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.listen(timeout = 15000)
     }
 
     onReentry {
-        furhat.listen(timeout=10000)
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.listen(timeout = 10000)
     }
 
     onResponse<PercentageResponse> {

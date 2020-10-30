@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
@@ -36,10 +37,16 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
                     "marbles in total. You can express the number of marbles I have as a division of the total " +
                     "number of marbles. Can you tell me this division expression?")
         }
-        furhat.listen(timeout=30000)
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.listen(timeout = 30000)
     }
 
     onReentry {
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 15000)
     }
 
@@ -47,11 +54,10 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         val _totalResponse = it.intent.total.value;
         val _shareResponse = it.intent.total.value;
 
-        if(_totalResponse == _total && _share == _shareResponse){
+        if (_totalResponse == _total && _share == _shareResponse) {
             resetWrongAnswers(users.current)
             goto(PercentagesExplanation(_total, _share))
-        }
-        else{
+        } else {
             wrongAnswer(users.current)
             goto(WrongPercentage(_total, _share))
         }
