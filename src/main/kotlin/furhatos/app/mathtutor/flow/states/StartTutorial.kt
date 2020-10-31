@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.ExercisesIntent
 import furhatos.app.mathtutor.nlu.ExplanationIntent
 import furhatos.app.mathtutor.nlu.MathMethod
@@ -31,6 +32,9 @@ fun StartTutorial(subject: String?): State = state(Interaction) {
                     {furhat.say("Time to begin then. Do you wish to hear the theory behind $subject, or go " +
                             "immediately to the exercises?")}
             )
+        }
+        parallel {
+            goto(reactToEmotion())
         }
         furhat.listen(timeout = 6000)
     }

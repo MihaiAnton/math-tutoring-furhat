@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.addition.WrongAddition1
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -17,12 +18,11 @@ import kotlin.random.Random
 
 fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
 
-    var _x1 : Int;
+    var _x1: Int;
 
-    if(x1 == null) {
+    if (x1 == null) {
         _x1 = Random.nextInt(2, 12)
-    }
-    else{
+    } else {
         _x1 = x1;
     }
 
@@ -36,11 +36,17 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
             furhat.say("Imagine I have $_x1 apples, and you have $_x1 apples as well. How many apples do we " +
                     "have together?")
         }
-        furhat.listen(timeout=15000)
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.listen(timeout = 15000)
     }
 
     onReentry {
-        furhat.listen(timeout=8000)
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.listen(timeout = 8000)
     }
 
     onResponse<AdditionResponse> {
@@ -50,8 +56,7 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
             delay(1000)
             wrongAnswer(users.current)
             goto(WrongAddition1(_x1))
-        }
-        else{
+        } else {
             resetWrongAnswers(users.current)
             goto(MultiplicationExample(_x1))
         }

@@ -4,22 +4,22 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.DivisionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
 import kotlin.random.Random
 
-fun DivisionIntro(total: Int? = null, perDay : Int? = null): State = state(Interaction) {
+fun DivisionIntro(total: Int? = null, perDay: Int? = null): State = state(Interaction) {
 
-    var _applesTotal : Int;
-    var _perDay : Int;
+    var _applesTotal: Int;
+    var _perDay: Int;
 
-    if(total == null || perDay == null) {
-        _perDay = Random.nextInt(2,8);
+    if (total == null || perDay == null) {
+        _perDay = Random.nextInt(2, 8);
         _applesTotal = _perDay * Random.nextInt(2, 6);
-    }
-    else{
+    } else {
         _applesTotal = total;
         _perDay = perDay;
     }
@@ -34,20 +34,25 @@ fun DivisionIntro(total: Int? = null, perDay : Int? = null): State = state(Inter
             furhat.say("Imagine I pick $_perDay apples for every day this week. If, at some point, I have " +
                     "$_applesTotal apples, how many days have I been picking apples?")
         }
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 30000)
     }
 
     onReentry {
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 15000)
     }
 
     onResponse<DivisionResponse> {
         val days = it.intent.days.value;
-        if(days == _applesTotal / _perDay){
+        if (days == _applesTotal / _perDay) {
             resetWrongAnswers(users.current)
             goto(DivisionExplanation(_perDay, _applesTotal))
-        }
-        else{
+        } else {
             wrongAnswer(users.current)
             goto(WrongDivision(_applesTotal, _perDay))
         }

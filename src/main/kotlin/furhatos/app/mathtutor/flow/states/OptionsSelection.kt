@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.PERCENTAGE
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.*
 import furhatos.app.mathtutor.parseMathMethod
 import furhatos.flow.kotlin.furhat
@@ -21,11 +22,14 @@ val OptionsSelection = state {
             furhat.say("Options Selection")
         } else {
             random(
-                    {furhat.say("Okay, great. Please tell me which calculation you want to practice.")},
-                    {furhat.say("Okay, great. Which calculation method do you want to practice?")},
-                    {furhat.say("Okay, great. Please tell me which method of calculation you wish to practice.")},
-                    {furhat.say("Okay, great. What is the calulation method that you want to practice?")}
+                    { furhat.say("Please tell me which calculation you want to practice.") },
+                    { furhat.say("Which calculation method do you want to practice?") },
+                    { furhat.say("Please tell me which method of calculation you wish to practice.") },
+                    { furhat.say("What is the calulation method that you want to practice?") }
             )
+        }
+        parallel {
+            goto(reactToEmotion())
         }
         furhat.listen(timeout = 6000)
     }

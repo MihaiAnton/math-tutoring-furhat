@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.DivisionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
@@ -30,10 +31,16 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
                     "fits inside the first argument. Now tell me, how many days have I picked apples if I pick " +
                     "$newPerDay apples per day and have $newTotal apples?")
         }
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 30000)
     }
 
     onReentry {
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 15000)
     }
 

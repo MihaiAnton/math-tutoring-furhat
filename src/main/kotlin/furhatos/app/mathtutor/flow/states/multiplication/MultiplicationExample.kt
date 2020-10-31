@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.addition.WrongAddition1
 import furhatos.app.mathtutor.flow.states.addition.WrongAddition2
 import furhatos.app.mathtutor.nlu.AdditionResponse
@@ -24,10 +25,16 @@ fun MultiplicationExample(x: Int): State = state(Interaction) {
                     "differently, using multiplication terms. We say that  we have two times $x apples. Now, how " +
                     "many apples do we have if Alice, who has $x apples as well, joins our party?")
         }
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 20000)
     }
 
     onReentry {
+        parallel {
+            goto(reactToEmotion())
+        }
         furhat.listen(timeout = 10000)
     }
 
