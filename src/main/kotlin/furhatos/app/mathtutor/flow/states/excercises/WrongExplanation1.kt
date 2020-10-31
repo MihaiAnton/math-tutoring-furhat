@@ -19,7 +19,7 @@ fun WrongExplanation1(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Wrong Explanation 1")
+        furhat.say("That does not sound like how $subject works..")
     }
 
 

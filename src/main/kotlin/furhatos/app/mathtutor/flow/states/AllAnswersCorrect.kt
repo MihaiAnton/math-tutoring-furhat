@@ -42,7 +42,7 @@ fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
     }
 
     onResponse<StopSessionIntent> {
-        goto(FinalState)
+        goto(FinalState())
     }
 
     onResponse<MoreExercisesIntent> {

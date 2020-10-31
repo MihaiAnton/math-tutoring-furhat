@@ -19,7 +19,7 @@ val InitialState = state {
         // Change the default thresholds:
 
 
-        getEmotionFromApi(users.current)
+//        getEmotionFromApi(users.current)
         parallel {
             goto(CustomGaze)
         }

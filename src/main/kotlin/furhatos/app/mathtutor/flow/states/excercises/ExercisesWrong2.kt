@@ -16,7 +16,7 @@ fun ExercisesWrong2(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Exercises Wrong 2")
+        furhat.say("There were still some mistakes in your answers, are you sure you understand $subject correctly or would you like some explanation?")
         resetUserExerciseData(users.current)
         furhat.listen()
     }

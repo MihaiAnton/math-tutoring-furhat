@@ -14,7 +14,10 @@ fun ExerciseEvaluation(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Exercise Evaluation - correct ${users.current.correctAnswers}, wrong ${users.current.wrongAnswers}")
+        random(
+                { furhat.say("I checked your answers and you have given me ${users.current.correctAnswers} correct and  ${users.current.wrongAnswers} wrong answers")},
+                { furhat.say("You answered ${users.current.correctAnswers} questions correct and  ${users.current.wrongAnswers} questions wrong ")}
+        )
 
         if (users.current.wrongAnswers == 0) {
             delay(1000)

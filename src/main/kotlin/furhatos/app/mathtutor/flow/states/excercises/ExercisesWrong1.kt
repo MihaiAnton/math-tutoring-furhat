@@ -13,7 +13,7 @@ fun ExercisesWrong1(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Exercises Wrong 1")
+        furhat.say("It seems you still have some troubles with $subject")
         delay(1000)
 
 

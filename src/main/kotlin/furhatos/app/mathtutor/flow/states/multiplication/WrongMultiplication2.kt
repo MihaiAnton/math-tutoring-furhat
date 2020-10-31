@@ -1,6 +1,7 @@
 package furhatos.app.mathtutor.flow.states.multiplication
 
 
+import furhatos.app.mathtutor.MULTIPLICATION
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.getGenericWrongResponse
@@ -16,7 +17,7 @@ fun WrongMultiplication2(x: Int): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse))
+        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse, MULTIPLICATION))
         delay(1000)
         goto(MultiplicationPractice2(x));
     }

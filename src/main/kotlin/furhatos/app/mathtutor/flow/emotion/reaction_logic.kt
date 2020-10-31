@@ -7,7 +7,7 @@ import furhatos.flow.kotlin.state
 import furhatos.records.User
 import furhatos.skills.UserManager.list
 
-fun getGenericWrongResponse(consecutiveWrong: Int): String {
+fun getGenericWrongResponse(consecutiveWrong: Int, subject: String?): String {
     if (debugMode()) {
         if (consecutiveWrong == 1) {
             val stringList = listOf("Not correct level 1")
@@ -21,11 +21,11 @@ fun getGenericWrongResponse(consecutiveWrong: Int): String {
         }
     } else {
         if (consecutiveWrong == 1) {
-            return getWrongResponseLevelOne()
+            return getWrongResponseLevelOne(subject)
         } else if (consecutiveWrong == 2 || consecutiveWrong == 3) {
-            return getWrongResponseLevelTwo()
+            return getWrongResponseLevelTwo(subject)
         } else {
-            return getWrongResponseLevelThree()
+            return getWrongResponseLevelThree(subject)
         }
     }
 }
@@ -69,41 +69,46 @@ fun getUncaughtResponseText(): String {
     return stringList.shuffled()[0]
 }
 
-fun getWrongResponseLevelOne(): String {
+fun getWrongResponseLevelOne(subject: String?): String {
     val stringList = listOf(
-            "That's incorrect, unfortunately. Please try again.",
+            "That's incorrect, unfortunately. Please try again. I'll give you a hint: It's $subject",
             "Not correct. Give it another go.",
             "That's not the right answer, but you can try again!",
             "Hmm, wrong answer. Try again, please.",
             "That answer is false, try again.",
-            "That's incorrect. Think carefully and try again.",
+            "That's incorrect. Think carefully and try again. ",
             "Wrong answer, unfortunately. Give it another go.",
             "That answer is false, but do another attempt.",
-            "No, please try again.",
+            "No, please try again. Remember what you know about $subject?",
             "Unfortunately, that is incorrect, but make another try.",
             "That is incorrect. Listen carefully and try again.",
-            "That is not correct. Give it a little bit more thought and try again."
+            "That is not correct. Give it a little bit more thought and try again. A hint: use $subject"
     )
     return stringList.shuffled().take(1)[0]
 }
 
-fun getWrongResponseLevelTwo(): String {
+fun getWrongResponseLevelTwo(subject: String?): String {
     val stringList = listOf(
-            "That is incorrect again. Follow the instructions carefully and try again.",
-            "That is again not the correct answer. Try to think in simple steps and try again.",
+            "That is incorrect again. Follow the instructions carefully and try again. We want to use $subject",
+            "That is again not the correct answer. Remember what you learned about $subject? Try to think in simple steps and try again.",
             "That is wrong again. You should be able to figure this out with the information I gave you, so think " +
                     "carefully and try again.",
-            "That is again the wrong answer. Try to figure it out as easy as you can, you can do it!",
+            "That is again the wrong answer. Try to figure it out with $subject as easy as you can, you can do it!",
             "You answered wrongly again. Try to think logically in steps and give it another go!"
     )
     return stringList.shuffled().take(1)[0]
 }
 
-fun getWrongResponseLevelThree(): String {
+fun getWrongResponseLevelThree(subject: String?): String {
     val stringList = listOf(
-            // TODO: add more
             "That is also incorrect. Step it up a bit. You should be able to do this. Listen carefully and try one " +
-                    "more time, I'm sure you can do it."
+                    "more time, I'm sure you can do it.",
+            "Unfortunately that is not the correct answer. You can try and count with your fingers!",
+            "This is the incorrect answer, but I'm sure you can do it! Think really hard!",
+            "I see you are having a little trouble with $subject. Maybe a little break can help you, or try to +" +
+                    "approach answering the question differently.",
+            "That is not the correct answer. Try think of the logic behind $subject, it will help you to find the " +
+                    "right answer"
     )
     return stringList.shuffled().take(1)[0]
 }

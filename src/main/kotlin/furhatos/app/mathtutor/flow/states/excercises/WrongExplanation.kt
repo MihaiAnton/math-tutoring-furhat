@@ -9,6 +9,6 @@ val WrongExplanation = state {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Wrong Explanation")
+        furhat.say("I'm afraid that's not correct.... I'll give you another try!")
     }
 }
