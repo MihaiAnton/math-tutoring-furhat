@@ -28,7 +28,7 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
         if (debugMode()) {
             furhat.say("Percentages Explanation")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Very good. We can formulate this is as follows: I have $share percent of the marbles. " +
                     "Percent literally means per hundred. If we have a specific number of items and a total number " +
                     "of these items, we can always express this number as a percentage. If there are $newTotal " +

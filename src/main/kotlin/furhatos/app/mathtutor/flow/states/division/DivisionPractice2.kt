@@ -25,7 +25,7 @@ fun DivisionPractice2(): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Division Practice 2")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Alright! Can you now tell me what the solution of $newTotal divided by $newPerDay is?")
         }
         parallel {

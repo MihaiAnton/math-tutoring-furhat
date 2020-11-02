@@ -17,7 +17,7 @@ val PercentageFinal = state {
         if (debugMode()) {
             furhat.say("Percentage Final")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Very well done. I think you are ready to try some exercises!")
         }
         delay(1000)

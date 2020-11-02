@@ -38,7 +38,7 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
         if (debugMode()) {
             furhat.say("Percentage Practice 2")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Super! Can you now tell me what the percentage is if I have $_share marbles and the " +
                     "total number of marbles is $_total?")
         }

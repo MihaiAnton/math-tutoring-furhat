@@ -19,7 +19,7 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
         if (debugMode()) {
             furhat.say("Division Practice 1")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Great. Can you express that calculation as a division?")
         }
         parallel {

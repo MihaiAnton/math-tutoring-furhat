@@ -19,7 +19,7 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
         if (debugMode()) {
             furhat.say("Multiplication Practice 1")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Very well. Can you tell me  how we can formulate this as a multiplication?")
         }
         parallel {

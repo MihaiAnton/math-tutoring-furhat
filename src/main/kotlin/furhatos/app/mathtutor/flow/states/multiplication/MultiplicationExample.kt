@@ -21,7 +21,7 @@ fun MultiplicationExample(x: Int): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Multiplication Example with sum $x")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("That's right. We can say that together we have $x plus $x apples. In this case, because " +
                     "we both have the same number $x of apples, we can also formulate our combined number " +
                     "differently, using multiplication terms. We say that  we have two times $x apples. Now, how " +

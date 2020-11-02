@@ -21,7 +21,7 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Multiplication Practice 2")
         } else {
-            furhat.gesture(Gestures.Nod())
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("You are doing very well. Following this method, tell me what happens if two more people " +
                     "with $x apples join. More specifically, what is the solution of five times $x?")
         }
