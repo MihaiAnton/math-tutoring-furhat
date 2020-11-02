@@ -34,6 +34,7 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }
 

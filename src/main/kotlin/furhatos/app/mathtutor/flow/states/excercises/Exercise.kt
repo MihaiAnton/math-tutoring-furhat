@@ -47,6 +47,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
             _question = question
 
             furhat.say(question.question)
+            furhat.glance(users.current)
             furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)
         } else if (redoWrong && exerciseId < users.current.wrongQuestions.size) {
             _responseType = users.current.wrongQuestions[exerciseId].responseType
@@ -56,6 +57,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
             parallel {
                 goto(reactToEmotion())
             }
+            furhat.glance(users.current)
             furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)
         } else {
             if (!redoWrong) {

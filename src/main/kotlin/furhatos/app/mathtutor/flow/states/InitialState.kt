@@ -52,6 +52,7 @@ val InitialState = state {
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000);
     }
 

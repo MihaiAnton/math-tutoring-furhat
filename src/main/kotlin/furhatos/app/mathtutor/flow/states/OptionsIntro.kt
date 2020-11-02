@@ -9,6 +9,7 @@ import furhatos.app.mathtutor.nlu.StartIntent
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.users
 
 val OptionsIntro = state {
     onEntry {
@@ -24,6 +25,7 @@ val OptionsIntro = state {
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 6000)
     }
 

@@ -24,9 +24,9 @@ val Start = state(Interaction) {
 
         // Generic TODO: at each question we have to check if we need a longer timeout. (Maybe when we have to think about answers to questions)
 
-        parallel{
-            getEmotionFromApi(users.current)
-        }
+//        parallel{
+//            getEmotionFromApi(users.current)
+//        }
 
         goto(InitialState)
     }

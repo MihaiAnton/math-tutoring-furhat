@@ -8,10 +8,7 @@ import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.nlu.DifferentCalculationIntent
 import furhatos.app.mathtutor.nlu.MoreExercisesIntent
 import furhatos.app.mathtutor.nlu.StopSessionIntent
-import furhatos.flow.kotlin.State
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.*
 
 fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
     onEntry {
@@ -44,6 +41,7 @@ fun AllAnswersCorrect(subject: String?): State = state(Interaction) {
                     }
             )
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 10000)
     }
 

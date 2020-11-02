@@ -31,6 +31,7 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000);
     }
 

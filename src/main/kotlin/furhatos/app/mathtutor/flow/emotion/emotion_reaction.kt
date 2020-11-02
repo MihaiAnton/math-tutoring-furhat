@@ -2,6 +2,7 @@ package furhatos.app.mathtutor.flow.emotion
 
 
 import furhatos.app.mathtutor.*
+import furhatos.app.mathtutor.flow.useEmotion
 import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
@@ -14,6 +15,7 @@ fun reactToEmotion(): State = state {
 
     onTime(0, 1000) {
 //        while (true) {
+        if (useEmotion) {
             try {
                 getEmotionFromApi(users.current)
             } catch (e: NumberFormatException) {
@@ -35,8 +37,7 @@ fun reactToEmotion(): State = state {
             } else {
                 furhat.gesture(Gestures.Smile(strength = 0.4), async = false)
             }
-//        }
-
+        }
     }
 }
 

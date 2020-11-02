@@ -23,6 +23,7 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000)
     }
 

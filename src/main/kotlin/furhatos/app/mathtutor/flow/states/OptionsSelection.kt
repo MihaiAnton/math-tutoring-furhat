@@ -9,11 +9,9 @@ import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.*
 import furhatos.app.mathtutor.parseMathMethod
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.*
 
-val OptionsSelection = state {
+val OptionsSelection: State = state {
     onEntry {
         parallel {
             goto(CustomGaze)
@@ -31,6 +29,7 @@ val OptionsSelection = state {
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 6000)
     }
 
@@ -39,6 +38,7 @@ val OptionsSelection = state {
             goto(UnwillingUserIntro)
         } else {
             furhat.say("Remember, you can choose between multiplication, division, and percentages.")
+            furhat.glance(users.current)
             furhat.listen(timeout = 6000)
         }
     }

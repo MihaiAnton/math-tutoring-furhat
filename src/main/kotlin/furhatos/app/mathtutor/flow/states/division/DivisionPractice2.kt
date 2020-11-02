@@ -29,6 +29,7 @@ fun DivisionPractice2(): State = state(Interaction) {
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }
 

@@ -39,6 +39,7 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 15000)
     }
 

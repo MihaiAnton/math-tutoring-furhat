@@ -40,6 +40,7 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }
 

@@ -35,6 +35,7 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 15000)
     }
 

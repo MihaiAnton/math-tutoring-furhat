@@ -37,6 +37,7 @@ fun DivisionIntro(total: Int? = null, perDay: Int? = null): State = state(Intera
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }
 
