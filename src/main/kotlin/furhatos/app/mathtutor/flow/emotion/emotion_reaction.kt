@@ -44,14 +44,24 @@ fun reactToEmotion(): State = state {
 
 fun wrongResponseReaction(): State = state {
     onEntry {
-        if (users.current.wrongConsecutiveResponse == 1) {
-            furhat.gesture(Gestures.ExpressSad(strength = 0.2))
-        } else if (users.current.wrongConsecutiveResponse == 2) {
-            furhat.gesture(Gestures.ExpressSad(strength = 0.4))
-        } else if (users.current.wrongConsecutiveResponse == 3) {
-            furhat.gesture(Gestures.ExpressSad(strength = 0.6))
-        } else if (users.current.wrongConsecutiveResponse > 3) {
-            furhat.gesture(Gestures.ExpressSad(strength = 0.8))
+//        println("Wrong answer" + users.current.wrongConsecutiveResponse)
+        when {
+            users.current.wrongConsecutiveResponse == 0 -> {
+                furhat.gesture(Gestures.Thoughtful(strength = 0.2))
+                furhat.gesture(Gestures.Shake(strength = 0.2))
+            }
+            users.current.wrongConsecutiveResponse == 1 -> {
+                furhat.gesture(Gestures.Thoughtful(strength = 0.4))
+                furhat.gesture(Gestures.Shake(strength = 0.4))
+            }
+            users.current.wrongConsecutiveResponse == 2 -> {
+                furhat.gesture(Gestures.Thoughtful(strength = 0.6))
+                furhat.gesture(Gestures.Shake(strength = 0.6))
+            }
+            users.current.wrongConsecutiveResponse > 3 -> {
+                furhat.gesture(Gestures.Thoughtful(strength = 0.8))
+                furhat.gesture(Gestures.Shake(strength = 0.8))
+            }
         }
     }
 }
