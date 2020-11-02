@@ -10,6 +10,7 @@ import furhatos.app.mathtutor.nlu.DivisionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 import kotlin.random.Random
 
 fun DivisionPractice2(): State = state(Interaction) {
@@ -24,6 +25,7 @@ fun DivisionPractice2(): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Division Practice 2")
         } else {
+            furhat.gesture(Gestures.Nod())
             furhat.say("Alright! Can you now tell me what the solution of $newTotal divided by $newPerDay is?")
         }
         parallel {

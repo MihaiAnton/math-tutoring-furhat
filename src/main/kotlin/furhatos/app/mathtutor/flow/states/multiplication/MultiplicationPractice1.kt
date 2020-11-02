@@ -9,6 +9,7 @@ import furhatos.app.mathtutor.nlu.MultiplicationResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 
 fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) {
     onEntry {
@@ -18,6 +19,7 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
         if (debugMode()) {
             furhat.say("Multiplication Practice 1")
         } else {
+            furhat.gesture(Gestures.Nod())
             furhat.say("Very well. Can you tell me  how we can formulate this as a multiplication?")
         }
         parallel {

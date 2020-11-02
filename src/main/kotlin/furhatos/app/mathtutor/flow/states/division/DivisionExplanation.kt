@@ -9,6 +9,7 @@ import furhatos.app.mathtutor.nlu.DivisionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 import kotlin.random.Random
 
 fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(Interaction) {
@@ -25,6 +26,7 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
         if (debugMode()) {
             furhat.say("Division Explanation")
         } else {
+            furhat.gesture(Gestures.Nod())
             furhat.say("Super. That is of course because $perDay fits $answer times in $total, which means we " +
                     "need $answer times $perDay apples. In division, we call this equation: $total divided by " +
                     "$perDay is $answer. In general, with division, we calculate how many times the second argument " +

@@ -44,7 +44,7 @@ fun reactToEmotion(): State = state {
 
 fun wrongResponseReaction(): State = state {
     onEntry {
-//        println("Wrong answer" + users.current.wrongConsecutiveResponse)
+        println("Wrong answer " + users.current.wrongConsecutiveResponse)
         when {
             users.current.wrongConsecutiveResponse == 0 -> {
                 furhat.gesture(Gestures.Thoughtful(strength = 0.2))

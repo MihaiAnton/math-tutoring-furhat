@@ -13,6 +13,7 @@ import furhatos.app.mathtutor.nlu.PercentageResponse2
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 
 fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(Interaction) {
 
@@ -23,6 +24,7 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         if (debugMode()) {
             furhat.say("Percentage Practice 1")
         } else {
+            furhat.gesture(Gestures.Nod())
             furhat.say("Great. So far it was easy, our total was $total already. As a general rule, a percentage " +
                     "can be calculated by dividing the specified portion of items by the total number of items and " +
                     "then multiplying this result with 100. Using this method, can you tell me what is the " +

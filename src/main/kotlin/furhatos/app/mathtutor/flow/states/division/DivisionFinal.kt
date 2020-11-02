@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
+import furhatos.gestures.Gestures
 
 val DivisionFinal = state {
     onEntry {
@@ -15,6 +16,7 @@ val DivisionFinal = state {
         if (debugMode()) {
             furhat.say("Division Final")
         } else {
+            furhat.gesture(Gestures.Nod())
             furhat.say("Very well done. I think you are ready to try some exercises!")
         }
         delay(1000)

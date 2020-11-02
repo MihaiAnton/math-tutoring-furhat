@@ -11,6 +11,7 @@ import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 
 fun MultiplicationExample(x: Int): State = state(Interaction) {
     onEntry {
@@ -20,6 +21,7 @@ fun MultiplicationExample(x: Int): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Multiplication Example with sum $x")
         } else {
+            furhat.gesture(Gestures.Nod())
             furhat.say("That's right. We can say that together we have $x plus $x apples. In this case, because " +
                     "we both have the same number $x of apples, we can also formulate our combined number " +
                     "differently, using multiplication terms. We say that  we have two times $x apples. Now, how " +
