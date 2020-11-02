@@ -23,7 +23,7 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         } else {
             furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("You are doing very well. Following this method, tell me what happens if two more people " +
-                    "with $x apples join. More specifically, what is the solution of five times $x?")
+                    "with $x apples join. ${furhat.voice.pause("500ms")} More specifically, what is the solution of five times $x?")
         }
         parallel {
             goto(reactToEmotion())
