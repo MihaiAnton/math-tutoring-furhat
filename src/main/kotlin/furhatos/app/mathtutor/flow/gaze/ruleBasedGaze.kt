@@ -1,18 +1,10 @@
 package furhatos.app.spaceshipattendant.flow.gaze
 
+import furhatos.app.mathtutor.flow.gaze.randomDownLocation
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
-import furhatos.records.Location
 
 import kotlin.random.Random
-
-// Use a different random location function than random gaze because gazing up looks weird most of the time.
-fun randomDownLocation(): Location {
-    val glances = listOf<Location>(
-            Location.DOWN_LEFT, Location.DOWN_RIGHT,
-            Location.DOWN, Location.RIGHT, Location.LEFT)
-    return glances.shuffled().take(1)[0]
-}
 
 val RuleBasedGaze = state {
     onTime(repeat=2000..4000) {
