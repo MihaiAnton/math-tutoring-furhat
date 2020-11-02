@@ -31,8 +31,9 @@ fun DivisionIntro(total: Int? = null, perDay: Int? = null): State = state(Intera
         if (debugMode()) {
             furhat.say("Division Intro")
         } else {
-            furhat.say("Imagine I pick $_perDay apples for every day this week. If, at some point, I have " +
-                    "$_applesTotal apples, how many days have I been picking apples?")
+            furhat.say("Imagine I pick $_perDay apples for every day this week. ${furhat.voice.pause("500ms")}" +
+                    "If, at some point, I have " +
+                    "$_applesTotal apples, ${furhat.voice.pause("500ms")} how many days have I been picking apples?")
         }
         parallel {
             goto(reactToEmotion())

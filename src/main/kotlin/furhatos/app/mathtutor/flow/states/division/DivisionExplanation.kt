@@ -28,10 +28,13 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
         } else {
             furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Super. That is of course because $perDay fits $answer times in $total, which means we " +
-                    "need $answer times $perDay apples. In division, we call this equation: $total divided by " +
-                    "$perDay is $answer. In general, with division, we calculate how many times the second argument " +
-                    "fits inside the first argument. Now tell me, how many days have I picked apples if I pick " +
-                    "$newPerDay apples per day and have $newTotal apples?")
+                    "need $answer times $perDay apples. ${furhat.voice.pause("500ms")}" +
+                    "In division, we call this equation: $total divided by " +
+                    "$perDay is $answer. ${furhat.voice.pause("500ms")}" +
+                    "In general, with division, we calculate how many times the second argument " +
+                    "fits inside the first argument. ${furhat.voice.pause("1000ms")}" +
+                    "Now tell me, how many days have I picked apples if I pick " +
+                    "$newPerDay apples per day ${furhat.voice.pause("500ms")} and have $newTotal apples?")
         }
         parallel {
             goto(reactToEmotion())
