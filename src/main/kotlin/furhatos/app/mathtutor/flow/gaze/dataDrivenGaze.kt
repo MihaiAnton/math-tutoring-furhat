@@ -21,14 +21,6 @@ fun sampleGaussian(mean : Double, std : Double) : Int {
 fun randomLocation(): Location {
     val glances = listOf<Location>(
             Location.DOWN_LEFT, Location.DOWN_RIGHT,
-            Location.DOWN, Location.UP, Location.RIGHT, Location.LEFT,
-            Location.UP_LEFT, Location.UP_RIGHT)
-    return glances.shuffled().take(1)[0]
-}
-
-fun randomDownLocation(): Location {
-    val glances = listOf<Location>(
-            Location.DOWN_LEFT, Location.DOWN_RIGHT,
             Location.DOWN, Location.RIGHT, Location.LEFT)
     return glances.shuffled().take(1)[0]
 }
@@ -37,21 +29,21 @@ fun randomDownLocation(): Location {
 val dataDrivenGaze = state {
     onEntry {
         while (true) {
-            if (furhat.isSpeaking) {
-                val gazeDuration = sampleGaussian(gazeSpeakingMean, gazeSpeakingStd)
-//                println("Gazing at user while speaking for $gazeDuration millis")
-                delay(gazeDuration.toLong())
-                val aversionDuration = sampleGaussian(aversionSpeakingMean, aversionSpeakingStd)
-                furhat.glance(randomDownLocation(), duration = aversionDuration)
-//                println("Gazing at random location while speaking location for $aversionDuration millis")
-                delay(aversionDuration.toLong())
-            } else {
+            if (furhat.isListening) {
                 val gazeDuration = sampleGaussian(gazeListeningMean, gazeListeningStd)
 //                println("Gazing at user while listening for $gazeDuration millis")
                 delay(gazeDuration.toLong())
                 val aversionDuration = sampleGaussian(aversionListeningMean, aversionListeningStd)
-                furhat.glance(randomDownLocation(), duration = aversionDuration)
+                furhat.glance(randomLocation(), duration = aversionDuration)
 //                println("Gazing at random location while listening for $aversionDuration millis")
+                delay(aversionDuration.toLong())
+            } else {
+                val gazeDuration = sampleGaussian(gazeSpeakingMean, gazeSpeakingStd)
+//                println("Gazing at user while speaking for $gazeDuration millis")
+                delay(gazeDuration.toLong())
+                val aversionDuration = sampleGaussian(aversionSpeakingMean, aversionSpeakingStd)
+                furhat.glance(randomLocation(), duration = aversionDuration)
+//                println("Gazing at random location while speaking location for $aversionDuration millis")
                 delay(aversionDuration.toLong())
             }
         }
