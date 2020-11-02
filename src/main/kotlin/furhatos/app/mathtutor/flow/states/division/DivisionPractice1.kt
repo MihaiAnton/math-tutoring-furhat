@@ -37,8 +37,8 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
     }
 
     onResponse<DivisionExpressionResponse> {
-        val _total = it.intent.value.value;
-        val _times = it.intent.times.value;
+        val _total = it.intent.times.value;
+        val _times = it.intent.value.value;
 
         if (total == _total && perDay == _times) {
             resetWrongAnswers(users.current)

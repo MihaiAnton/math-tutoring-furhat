@@ -33,9 +33,12 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         if (debugMode()) {
             furhat.say("Percentage Intro")
         } else {
-            furhat.say("Imagine I have $_share marbles, and you have $_oppShare marbles. Then there are $total " +
-                    "marbles in total. You can express the number of marbles I have as a division of the total " +
-                    "number of marbles. Can you tell me this division expression?")
+            furhat.say("Imagine I have $_share marbles, ${furhat.voice.pause("500ms")} " +
+                    "and you have $_oppShare marbles. Then there are $_total " +
+                    "marbles in total. ${furhat.voice.pause("500ms")}" +
+                    "You can express the number of marbles I have as a division of the total " +
+                    "number of marbles. ${furhat.voice.pause("500ms")} " +
+                    "Can you tell me this division expression?")
         }
         parallel {
             goto(reactToEmotion())
@@ -53,7 +56,7 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
 
     onResponse<PercentageResponse> {
         val _totalResponse = it.intent.total.value;
-        val _shareResponse = it.intent.total.value;
+        val _shareResponse = it.intent.fraction.value;
 
         if (_totalResponse == _total && _share == _shareResponse) {
             resetWrongAnswers(users.current)

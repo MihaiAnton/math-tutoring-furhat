@@ -31,8 +31,11 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
             furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("Very good. We can formulate this is as follows: I have $share percent of the marbles. " +
                     "Percent literally means per hundred. If we have a specific number of items and a total number " +
-                    "of these items, we can always express this number as a percentage. If there are $newTotal " +
-                    "marbles still, and I have $newShare, what is the percentage of marbles I have?")
+                    "of these items, we can always express this number as a percentage. " +
+                    "${furhat.voice.pause("500ms")} If there are $newTotal " +
+                    "marbles still, ${furhat.voice.pause("500ms")} " +
+                    "and I have $newShare, ${furhat.voice.pause("500ms")} " +
+                    "what is the percentage of marbles I have?")
         }
         parallel {
             goto(reactToEmotion())
@@ -50,11 +53,11 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
 
     onResponse<PercentageResponse> {
         val _totalResponse = it.intent.total.value;
-        val _shareResponse = it.intent.total.value;
+        val _shareResponse = it.intent.fraction.value;
 
         if (_totalResponse == newTotal && _shareResponse == newShare) {
             resetWrongAnswers(users.current)
-            goto(PercentagePractice1())
+            goto(PercentagePractice1(newTotal))
         } else {
             wrongAnswer(users.current)
             goto(WrongPercentage1(newTotal, newShare))
