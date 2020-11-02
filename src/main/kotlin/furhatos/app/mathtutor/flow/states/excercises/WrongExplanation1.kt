@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.PERCENTAGE
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.isConfident
+import furhatos.app.mathtutor.flow.emotion.wrongResponseReaction
 import furhatos.app.mathtutor.nlu.CorrectDivisionResponse
 import furhatos.app.mathtutor.nlu.CorrectMultiplicationResponse
 import furhatos.app.mathtutor.nlu.CorrectPercentageResponse
@@ -18,6 +19,9 @@ fun WrongExplanation1(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
+        }
+        parallel {
+            goto(wrongResponseReaction())
         }
         furhat.say("That does not sound like how $subject works..")
     }
