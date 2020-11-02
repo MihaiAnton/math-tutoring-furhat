@@ -5,6 +5,7 @@ import furhatos.flow.kotlin.onUserLeave
 import furhatos.flow.kotlin.state
 
 import furhatos.flow.kotlin.*
+import furhatos.flow.kotlin.voice.Voice
 import furhatos.util.Language
 
 
@@ -26,7 +27,8 @@ val Idle : State = state {
      */
     init {
         furhat.setTexture("male")
-        furhat.setVoice(Language.ENGLISH_US, "Matthew")
+        furhat.voice = Voice("Matthew", rate=0.9)
+//        furhat.setVoice(Language.ENGLISH_US, "Matthew", rate=1.1)
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(Start)
