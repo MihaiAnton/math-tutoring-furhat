@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.DivisionExpressionResponse
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -29,13 +30,6 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
         furhat.listen(timeout = 20000)
     }
 
-    onReentry {
-        parallel {
-            goto(reactToEmotion())
-        }
-        furhat.listen(timeout = 10000)
-    }
-
     onResponse<DivisionExpressionResponse> {
         val _total = it.intent.times.value;
         val _times = it.intent.value.value;
@@ -49,9 +43,14 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
         }
     }
 
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
+    }
+
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout = 10000)
     }
 
 }
