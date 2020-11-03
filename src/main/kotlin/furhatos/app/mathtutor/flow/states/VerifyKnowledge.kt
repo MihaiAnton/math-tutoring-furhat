@@ -40,10 +40,6 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
         furhat.listen(timeout = 30000)
     }
 
-    onTime(delay = 40000) {
-        goto(WrongExplanation2(subject))
-    }
-
     onResponse<No> {
         goto(WrongExplanation2(subject))
     }
@@ -72,6 +68,10 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
         } else {
             goto(WrongExplanation1(subject))
         }
+    }
+
+    onNoResponse {
+        goto(WrongExplanation2(subject))
     }
 }
 

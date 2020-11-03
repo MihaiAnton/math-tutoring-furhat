@@ -5,6 +5,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.nlu.NumericAnswer
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.No
@@ -68,6 +69,11 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
             }
             goto(ExerciseEvaluation(subject))
         }
+    }
+
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
     }
 
     onResponse<Yes> {
