@@ -39,7 +39,8 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
             goto(DivisionPractice2());
         } else {
             wrongAnswer(users.current)
-            goto(WrongDivisionCalculation(total, perDay))
+            call(wrongDivision)
+            reentry()
         }
     }
 

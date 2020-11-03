@@ -51,7 +51,8 @@ fun DivisionExplanation(total: Int? = null, perDay: Int? = null): State = state(
             goto(DivisionPractice1(newPerDay, newTotal))
         } else {
             wrongAnswer(users.current)
-            goto(WrongDivision1(newTotal, newPerDay))
+            call(wrongDivision)
+            reentry()
         }
     }
 

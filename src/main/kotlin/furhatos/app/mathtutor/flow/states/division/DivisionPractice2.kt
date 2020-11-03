@@ -46,7 +46,8 @@ fun DivisionPractice2(): State = state(Interaction) {
         }
         else{
             wrongAnswer(users.current)
-            goto(WrongDivision2(newTotal, newPerDay))
+            call(wrongDivision)
+            reentry()
         }
     }
 

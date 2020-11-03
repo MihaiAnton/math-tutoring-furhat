@@ -50,7 +50,8 @@ fun DivisionIntro(total: Int? = null, perDay: Int? = null): State = state(Intera
             goto(DivisionExplanation(_applesTotal, _perDay))
         } else {
             wrongAnswer(users.current)
-            goto(WrongDivision(_applesTotal, _perDay))
+            call(wrongDivision)
+            reentry()
         }
     }
 
