@@ -76,6 +76,8 @@ class StringAnswer(val response: String = "") : ComplexEnumEntity() {
     }
 }
 
+class RepeatQuestionIntent : Intent()
+
 class IKnowItResponse : EnumEntity()
 
 class StopSessionIntent : Intent()
