@@ -5,14 +5,9 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
-import furhatos.app.mathtutor.flow.states.percentage.PercentagesExplanation
-import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage
-import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage1
-import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage2
-import furhatos.app.mathtutor.isCorrectPercentage
-import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.flow.states.percentage.wrongPercentage
+import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
-import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -42,15 +37,17 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         furhat.listen(timeout = 20000);
     }
 
-    onResponse<PercentageResponse2> {
-        val fraction = it.intent.fraction.value;
+    onResponse<PercentageResponse> {
+        val fractionResponse = it.intent.fraction?.value;
+        val totalResponse = it.intent.total.value;
 
-        if (fraction == 50) {
+        if (fractionResponse == 50 && totalResponse == 100) {
             resetWrongAnswers(users.current)
             goto(PercentagePractice2())
         } else {
             wrongAnswer(users.current)
-            goto(WrongPercentage2)
+            call(wrongPercentage)
+            reentry()
         }
     }
 
@@ -64,21 +61,19 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         reentry()
     }
 
-     onResponse<StringAnswer> {
-        val result = it.intent.response;
-        if(isCorrectPercentage(it.text, 50)){
-            resetWrongAnswers(users.current)
-            goto(PercentagePractice2())
-        }
-        else{
-            wrongAnswer(users.current)
-            goto(WrongPercentage2)
-        }
-    }
-
     onResponse {
-        furhat.say(getUncaughtResponseText())
-        furhat.listen(timeout = 10000)
+        if (it.text.contains("%") || it.text.contains("percent")) {
+            if (it.text.contains("50")) {
+                resetWrongAnswers(users.current)
+                goto(PercentagePractice2())
+            } else {
+                wrongAnswer(users.current)
+                call(wrongPercentage)
+                reentry()
+            }
+        } else {
+            furhat.say(getUncaughtResponseText())
+            furhat.listen(timeout = 15000)
+        }
     }
-
 }

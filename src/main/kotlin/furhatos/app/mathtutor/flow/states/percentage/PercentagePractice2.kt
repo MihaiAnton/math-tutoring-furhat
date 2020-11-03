@@ -5,14 +5,9 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
-import furhatos.app.mathtutor.flow.states.percentage.PercentageFinal
-import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage1
-import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage2
-import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage3
-import furhatos.app.mathtutor.isCorrectPercentage
-import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.flow.states.percentage.*
+import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
-import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -21,15 +16,15 @@ import kotlin.random.Random
 
 fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(Interaction) {
 
-    var _total: Int;
-    var _share: Int;
+    val newTotal: Int;
+    val newShare: Int;
 
     if (total == null || share == null) {
-        _share = 4 * Random.nextInt(1, 5);
-        _total = 20
+        newShare = 4 * Random.nextInt(1, 5);
+        newTotal = 20
     } else {
-        _total = total;
-        _share = share;
+        newTotal = total;
+        newShare = share;
     }
 
     onEntry {
@@ -40,9 +35,9 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
             furhat.say("Percentage Practice 2")
         } else {
             furhat.gesture(Gestures.Nod(strength = 0.4))
-            furhat.say("Super! Can you now tell me what the percentage is if I have $_share marbles " +
+            furhat.say("Super! Can you now tell me what the percentage is if I have $newShare marbles " +
                     "${furhat.voice.pause("500ms")} and the " +
-                    "total number of marbles is $_total?")
+                    "total number of marbles is $newTotal?")
         }
         parallel {
             goto(reactToEmotion())
@@ -51,15 +46,17 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
         furhat.listen(timeout = 20000)
     }
 
-    onResponse<PercentageResponse2> {
-        val fraction = it.intent.fraction.value;
+    onResponse<PercentageResponse> {
+        val fractionResponse = it.intent.fraction?.value;
+        val totalResponse = it.intent.total.value;
 
-        if (fraction == _share * 5) {
+        if (fractionResponse == newShare * 5 && totalResponse == 100) {
             resetWrongAnswers(users.current)
             goto(PercentageFinal)
         } else {
             wrongAnswer(users.current)
-            goto(WrongPercentage3(_total, _share))
+            call(wrongPercentage)
+            reentry()
         }
     }
 
@@ -73,14 +70,19 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
         reentry()
     }
 
-    onResponse<StringAnswer> {
-        val result = it.intent.response;
-        if (isCorrectPercentage(it.text, _share * 5)) {
-            resetWrongAnswers(users.current)
-            goto(PercentageFinal)
+    onResponse {
+        if (it.text.contains("%") || it.text.contains("percent")) {
+            if (it.text.contains((newShare * 5).toString())) {
+                resetWrongAnswers(users.current)
+                goto(PercentageFinal)
+            } else {
+                wrongAnswer(users.current)
+                call(wrongPercentage)
+                reentry()
+            }
         } else {
-            wrongAnswer(users.current)
-            goto(WrongPercentage3(_total, _share))
+            furhat.say(getUncaughtResponseText())
+            furhat.listen(timeout = 15000)
         }
     }
 

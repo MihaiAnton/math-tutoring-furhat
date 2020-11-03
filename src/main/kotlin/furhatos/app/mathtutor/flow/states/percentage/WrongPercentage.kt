@@ -11,7 +11,7 @@ import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.users
 
-fun WrongPercentage(total: Int? = null, share: Int? = null): State = state(Interaction){
+val wrongPercentage: State = state {
     onEntry {
         parallel {
             goto(CustomGaze)
@@ -21,6 +21,6 @@ fun WrongPercentage(total: Int? = null, share: Int? = null): State = state(Inter
         }
         furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse, PERCENTAGE))
         delay(1000)
-        goto(PercentageIntro(total, share))
+        terminate()
     }
 }

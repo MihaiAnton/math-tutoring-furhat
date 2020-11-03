@@ -5,11 +5,8 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
-import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
-import furhatos.app.mathtutor.nlu.PercentageResponse2
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
-import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -17,18 +14,18 @@ import kotlin.random.Random
 
 fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Interaction) {
 
-    var _total: Int;
-    var _share: Int;
+    val newTotal: Int;
+    val newShare: Int;
 
     if (total == null || share == null) {
-        _total = 100;
-        _share = 10 * Random.nextInt(1, 7);
+        newTotal = 100;
+        newShare = 10 * Random.nextInt(1, 7);
     } else {
-        _total = total;
-        _share = share;
+        newTotal = total;
+        newShare = share;
     }
 
-    var _oppShare = _total - _share
+    val oppShare = newTotal - newShare
 
     onEntry {
         parallel {
@@ -37,8 +34,8 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         if (debugMode()) {
             furhat.say("Percentage Intro")
         } else {
-            furhat.say("Imagine I have $_share marbles, ${furhat.voice.pause("500ms")} " +
-                    "and you have $_oppShare marbles. Then there are $_total " +
+            furhat.say("Imagine I have $newShare marbles, ${furhat.voice.pause("500ms")} " +
+                    "and you have $oppShare marbles. Then there are $newTotal " +
                     "marbles in total. ${furhat.voice.pause("500ms")}" +
                     "You can express the number of marbles I have as a division of the total " +
                     "number of marbles. ${furhat.voice.pause("500ms")} " +
@@ -51,29 +48,17 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         furhat.listen(timeout = 30000)
     }
 
-    onResponse<PercentageResponse2> {
-        val _totalResponse = 100
-        val _shareResponse = it.intent.fraction.value;
-
-        if (_totalResponse == _total && _share == _shareResponse) {
-            resetWrongAnswers(users.current)
-            goto(PercentagesExplanation(_total, _share))
-        } else {
-            wrongAnswer(users.current)
-            goto(WrongPercentage(_total, _share))
-        }
-    }
-
     onResponse<PercentageResponse> {
-        val _totalResponse = it.intent.total.value;
-        val _shareResponse = it.intent.fraction.value;
+        val totalResponse = it.intent.total.value;
+        val shareResponse = it.intent.fraction?.value;
 
-        if (_totalResponse == _total && _share == _shareResponse) {
+        if (totalResponse == newTotal && newShare == shareResponse) {
             resetWrongAnswers(users.current)
-            goto(PercentagesExplanation(_total, _share))
+            goto(PercentagesExplanation(newTotal, newShare))
         } else {
             wrongAnswer(users.current)
-            goto(WrongPercentage(_total, _share))
+            call(wrongPercentage)
+            reentry()
         }
     }
 
@@ -87,20 +72,19 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         reentry()
     }
 
-    onResponse<StringAnswer> {
-        val result = it.intent.response;
-        if(isCorrectPercentage(it.text, _share)){
-            resetWrongAnswers(users.current)
-            goto(PercentagesExplanation(_total, _share))
-        }
-        else{
-            wrongAnswer(users.current)
-            goto(WrongPercentage(_total, _share))
-        }
-    }
-
     onResponse {
-        furhat.say(getUncaughtResponseText())
-        furhat.listen(timeout = 15000)
+        if (it.text.contains("%") || it.text.contains("percent")) {
+            if (it.text.contains(newShare.toString())) {
+                resetWrongAnswers(users.current)
+                goto(PercentagesExplanation(newTotal, newShare))
+            } else {
+                wrongAnswer(users.current)
+                call(wrongPercentage)
+                reentry()
+            }
+        } else {
+            furhat.say(getUncaughtResponseText())
+            furhat.listen(timeout = 15000)
+        }
     }
 }

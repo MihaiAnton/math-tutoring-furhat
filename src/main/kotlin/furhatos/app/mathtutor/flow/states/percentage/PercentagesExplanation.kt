@@ -5,8 +5,6 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
-import furhatos.app.mathtutor.flow.states.division.DivisionExplanation
-import furhatos.app.mathtutor.flow.states.division.DivisionPractice1
 import furhatos.app.mathtutor.flow.states.multiplication.PercentagePractice1
 import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
@@ -48,15 +46,16 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
     }
 
     onResponse<PercentageResponse> {
-        val _totalResponse = it.intent.total.value;
-        val _shareResponse = it.intent.fraction.value;
+        val totalResponse = it.intent.total.value;
+        val shareResponse = it.intent.fraction?.value;
 
-        if (_totalResponse == newTotal && _shareResponse == newShare) {
+        if (totalResponse == newTotal && shareResponse == newShare) {
             resetWrongAnswers(users.current)
-            goto(PercentagePractice1(newTotal))
+            goto(PercentagePractice1(newTotal, newShare))
         } else {
             wrongAnswer(users.current)
-            goto(WrongPercentage1(newTotal, newShare))
+            call(wrongPercentage)
+            reentry()
         }
     }
 
@@ -70,20 +69,19 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
         reentry()
     }
 
-    onResponse<StringAnswer> {
-        val result = it.intent.response;
-        if(isCorrectPercentage(it.text, newShare)){
-            resetWrongAnswers(users.current)
-            goto(PercentagePractice1(newTotal))
-        }
-        else{
-            wrongAnswer(users.current)
-            goto(WrongPercentage1(newTotal, newShare))
-        }
-    }
-
     onResponse {
-        furhat.say(getUncaughtResponseText())
-        furhat.listen(timeout = 10000)
+        if (it.text.contains("%") || it.text.contains("percent")) {
+            if (it.text.contains(newShare.toString())) {
+                resetWrongAnswers(users.current)
+                goto(PercentagePractice1(newTotal, newShare))
+            } else {
+                wrongAnswer(users.current)
+                call(wrongPercentage)
+                reentry()
+            }
+        } else {
+            furhat.say(getUncaughtResponseText())
+            furhat.listen(timeout = 15000)
+        }
     }
 }
