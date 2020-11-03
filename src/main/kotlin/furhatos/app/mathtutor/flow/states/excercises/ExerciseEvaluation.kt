@@ -28,25 +28,25 @@ fun ExerciseEvaluation(subject: String?): State = state(Interaction) {
                 MULTIPLICATION -> {
                     users.current.attemptsMultiplication++
                     if (users.current.attemptsMultiplication > 1) {
-                        goto(ExercisesWrong2(subject))
+                        goto(exercisesWrong2(subject))
                     } else {
-                        goto(ExercisesWrong1(subject))
+                        goto(exercisesWrong1(subject))
                     }
                 }
                 DIVISION -> {
                     users.current.attemptsDivision++
                     if (users.current.attemptsDivision > 1) {
-                        goto(ExercisesWrong2(subject))
+                        goto(exercisesWrong2(subject))
                     } else {
-                        goto(ExercisesWrong1(subject))
+                        goto(exercisesWrong1(subject))
                     }
                 }
                 PERCENTAGE -> {
                     users.current.attemptsPercentage++
                     if (users.current.attemptsPercentage > 1) {
-                        goto(ExercisesWrong2(subject))
+                        goto(exercisesWrong2(subject))
                     } else {
-                        goto(ExercisesWrong1(subject))
+                        goto(exercisesWrong1(subject))
                     }
                 }
             }
