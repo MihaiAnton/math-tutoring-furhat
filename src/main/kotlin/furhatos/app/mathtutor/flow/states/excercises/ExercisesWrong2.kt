@@ -4,7 +4,7 @@ import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.flow.emotion.wrongResponseReaction
 import furhatos.app.mathtutor.flow.states.StartExplanation
 import furhatos.app.mathtutor.flow.states.UnwillingUserIntro
@@ -25,7 +25,7 @@ fun exercisesWrong2(subject: String?): State = state(Interaction) {
         furhat.say("There were still some mistakes in your answers, are you sure you understand $subject correctly or would you like some explanation?")
         resetUserExerciseData(users.current)
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 20000)

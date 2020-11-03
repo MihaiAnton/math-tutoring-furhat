@@ -5,7 +5,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -26,7 +26,7 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
                     "with $x apples join. ${furhat.voice.pause("500ms")} More specifically, what is the solution of five times $x?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 20000)

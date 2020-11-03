@@ -3,8 +3,8 @@ package furhatos.app.mathtutor.flow.states.multiplication;
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -33,7 +33,7 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
                     "have together?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 15000)

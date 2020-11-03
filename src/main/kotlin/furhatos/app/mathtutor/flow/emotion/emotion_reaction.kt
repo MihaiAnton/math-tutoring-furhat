@@ -11,13 +11,26 @@ import furhatos.gestures.Gestures
 
 const val VALENCE_THRESHOLD = -0.3
 
-fun reactToEmotion(): State = state {
+val detectConfusion: State = state {
     onTime(0, 1000) {
         if (useEmotion) {
             updateEmotionFromApi(users.current)
             if (users.current.rollingValence < VALENCE_THRESHOLD) {
                 send("ConfusionEvent")
                 terminate()
+            }
+        }
+    }
+}
+
+val mirrorEmotion: State = state {
+    onTime(0, 1000) {
+        if (useEmotion) {
+            updateEmotionFromApi(users.current)
+            if (users.current.rollingValence > 0) {
+                furhat.gesture(Gestures.Smile(strength = users.current.rollingArousal))
+            } else {
+                furhat.gesture(Gestures.Thoughtful(strength = users.current.rollingArousal))
             }
         }
     }

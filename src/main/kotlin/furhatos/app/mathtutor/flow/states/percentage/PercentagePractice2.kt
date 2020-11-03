@@ -4,7 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.flow.states.percentage.*
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
@@ -40,7 +40,7 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
                     "total number of marbles is $newTotal?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 20000)

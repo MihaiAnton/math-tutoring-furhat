@@ -3,13 +3,12 @@ package furhatos.app.mathtutor.flow.states.excercises;
 import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.nlu.NumericAnswer
 import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.No
 import furhatos.nlu.common.Yes
-import software.amazon.ion.impl.PrivateIonConstants.False
 
 
 fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false): State = state(Interaction)
@@ -55,7 +54,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
 
             furhat.say(_question!!.question)
             parallel {
-                goto(reactToEmotion())
+                goto(detectConfusion)
             }
             furhat.glance(users.current)
             furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)

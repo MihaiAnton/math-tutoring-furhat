@@ -4,7 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -42,7 +42,7 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
                     "Can you tell me this division expression?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 30000)

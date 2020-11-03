@@ -4,7 +4,6 @@ import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.*
 import furhatos.flow.kotlin.*
 
@@ -29,9 +28,7 @@ val OptionsSelection: State = state {
                     { furhat.say("What is the calculation method that you want to practice?") }
             )
         }
-        parallel {
-            goto(reactToEmotion())
-        }
+
         furhat.glance(users.current)
         furhat.listen(timeout = 6000)
     }

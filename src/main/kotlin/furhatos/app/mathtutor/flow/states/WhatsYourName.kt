@@ -2,7 +2,6 @@ package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.name
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.TellName
@@ -31,9 +30,6 @@ val WhatsYourName = state {
             )
         }
 
-        parallel {
-            goto(reactToEmotion())
-        }
         furhat.glance(users.current)
         furhat.listen(timeout = 20000);
     }

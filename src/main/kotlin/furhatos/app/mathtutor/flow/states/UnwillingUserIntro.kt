@@ -10,6 +10,9 @@ val UnwillingUserIntro = state {
         parallel {
             goto(CustomGaze)
         }
+        parallel {
+            goto(CustomGaze)
+        }
         if (debugMode()) {
             furhat.say("Unwilling User Intro")
         } else {

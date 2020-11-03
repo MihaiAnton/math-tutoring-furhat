@@ -3,7 +3,6 @@ package furhatos.app.mathtutor.flow.states;
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.OptionsIntent
 import furhatos.app.mathtutor.nlu.StartIntent
 import furhatos.app.mathtutor.nlu.UnwillingIntent
@@ -43,9 +42,6 @@ val InitialState = state {
             )
         }
 
-        parallel {
-            goto(reactToEmotion())
-        }
         furhat.glance(users.current)
         furhat.listen(timeout = 20000);
     }

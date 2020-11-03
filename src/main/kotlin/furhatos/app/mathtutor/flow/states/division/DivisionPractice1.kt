@@ -4,7 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.nlu.DivisionExpressionResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -24,7 +24,7 @@ fun DivisionPractice1(total: Int? = null, perDay: Int? = null): State = state(In
             furhat.say("Great. Can you express that calculation as a division?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 20000)

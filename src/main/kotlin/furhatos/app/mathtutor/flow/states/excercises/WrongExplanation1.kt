@@ -7,15 +7,10 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 
 import furhatos.app.mathtutor.flow.debugMode
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.correctExplanation
-import furhatos.app.mathtutor.flow.emotion.isConfident
-import furhatos.app.mathtutor.flow.emotion.wrongResponseReaction
 import furhatos.app.mathtutor.nlu.CorrectDivisionResponse
 import furhatos.app.mathtutor.nlu.CorrectMultiplicationResponse
 import furhatos.app.mathtutor.nlu.CorrectPercentageResponse
-import furhatos.app.mathtutor.nlu.MathMethod
-import furhatos.app.mathtutor.parseMathMethod
 
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.No
@@ -40,11 +35,8 @@ fun WrongExplanation1(subject: String?): State = state(Interaction) {
                     }
             )
         }
-        parallel {
-            goto(reactToEmotion())
-        }
-        furhat.listen(timeout = 20000)
 
+        furhat.listen(timeout = 20000)
     }
 
     onTime(delay = 10000) {

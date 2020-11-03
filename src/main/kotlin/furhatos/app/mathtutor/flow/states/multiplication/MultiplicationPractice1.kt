@@ -4,7 +4,7 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.nlu.MultiplicationResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -24,7 +24,7 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
             furhat.say("Very well. Can you tell me how we can formulate this as a multiplication?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 10000)

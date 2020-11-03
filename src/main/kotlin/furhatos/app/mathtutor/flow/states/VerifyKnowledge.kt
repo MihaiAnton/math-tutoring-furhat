@@ -4,14 +4,9 @@ import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
-import furhatos.app.mathtutor.flow.emotion.isConfident
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
-import furhatos.app.mathtutor.flow.states.division.DivisionIntro
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation1
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation2
-import furhatos.app.mathtutor.flow.states.multiplication.MultiplicationIntro
-import furhatos.app.mathtutor.flow.states.percentage.PercentageIntro
 import furhatos.app.mathtutor.nlu.*
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.DontKnow
@@ -37,9 +32,6 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
             )
         }
 
-        parallel {
-            goto(reactToEmotion())
-        }
         furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }

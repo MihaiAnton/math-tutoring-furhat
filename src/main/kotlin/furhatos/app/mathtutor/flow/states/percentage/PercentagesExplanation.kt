@@ -4,12 +4,10 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
-import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.flow.states.multiplication.PercentagePractice1
-import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
-import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -39,7 +37,7 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
                     "what is the percentage of marbles I have?")
         }
         parallel {
-            goto(reactToEmotion())
+            goto(detectConfusion)
         }
         furhat.glance(users.current)
         furhat.listen(timeout = 15000)
