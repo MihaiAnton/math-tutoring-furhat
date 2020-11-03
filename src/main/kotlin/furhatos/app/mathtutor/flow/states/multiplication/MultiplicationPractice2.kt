@@ -8,6 +8,7 @@ import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.nlu.MultiplicationResponse
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -32,13 +33,6 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         furhat.listen(timeout = 20000)
     }
 
-    onReentry {
-        parallel {
-            goto(reactToEmotion())
-        }
-        furhat.listen(timeout = 10000)
-    }
-
     onResponse<AdditionResponse> {
         if (it.intent.sum.value == x * 5) {
             resetWrongAnswers(users.current)
@@ -49,8 +43,13 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         }
     }
 
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
+    }
+
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout = 10000)
     }
 }
