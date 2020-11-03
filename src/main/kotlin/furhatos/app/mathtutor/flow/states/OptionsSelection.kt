@@ -1,14 +1,11 @@
 package furhatos.app.mathtutor.flow.states;
 
-import furhatos.app.mathtutor.DIVISION
-import furhatos.app.mathtutor.MULTIPLICATION
-import furhatos.app.mathtutor.PERCENTAGE
+import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.*
-import furhatos.app.mathtutor.parseMathMethod
 import furhatos.flow.kotlin.*
 
 val OptionsSelection: State = state {
@@ -46,8 +43,19 @@ val OptionsSelection: State = state {
     onResponse<LearningMathMethod> {
         val method = parseMathMethod(it.intent.subject);
         goto(StartTutorial(method))
-
     }
+
+    onResponse<StringAnswer> {
+        val result = it.intent.response;
+        val method = parseMathMethodWContain(it.text);
+        if(method == null){
+            goto(UnwillingUserIntro)
+        }
+        else{
+            goto(StartTutorial(method))
+        }
+    }
+
 
     onResponse<UnwillingIntent> {
         goto(UnwillingUserIntro)

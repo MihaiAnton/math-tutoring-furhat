@@ -5,7 +5,10 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
+import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -54,6 +57,19 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         furhat.listen(timeout = 15000)
     }
 
+    onResponse<PercentageResponse2> {
+        val _totalResponse = 100
+        val _shareResponse = it.intent.fraction.value;
+
+        if (_totalResponse == _total && _share == _shareResponse) {
+            resetWrongAnswers(users.current)
+            goto(PercentagesExplanation(_total, _share))
+        } else {
+            wrongAnswer(users.current)
+            goto(WrongPercentage(_total, _share))
+        }
+    }
+
     onResponse<PercentageResponse> {
         val _totalResponse = it.intent.total.value;
         val _shareResponse = it.intent.fraction.value;
@@ -62,6 +78,18 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
             resetWrongAnswers(users.current)
             goto(PercentagesExplanation(_total, _share))
         } else {
+            wrongAnswer(users.current)
+            goto(WrongPercentage(_total, _share))
+        }
+    }
+
+    onResponse<StringAnswer> {
+        val result = it.intent.response;
+        if(isCorrectPercentage(it.text, _share)){
+            resetWrongAnswers(users.current)
+            goto(PercentagesExplanation(_total, _share))
+        }
+        else{
             wrongAnswer(users.current)
             goto(WrongPercentage(_total, _share))
         }

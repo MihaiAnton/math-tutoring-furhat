@@ -13,6 +13,8 @@ import furhatos.app.mathtutor.flow.states.excercises.Exercise
 import furhatos.app.mathtutor.flow.states.excercises.ExercisesWrong2
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.flow.states.multiplication.*
+import furhatos.app.mathtutor.flow.states.percentage.PercentageIntro
+import furhatos.app.mathtutor.flow.states.percentage.PercentagesExplanation
 import furhatos.app.mathtutor.nlu.*
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.*
@@ -27,7 +29,7 @@ val Start = state(Interaction) {
 //            getEmotionFromApi(users.current)
 //        }
 
-        goto(InitialState)
+        goto(PercentagesExplanation(100, 20))
     }
 //
 //    onTime(0, 1000){

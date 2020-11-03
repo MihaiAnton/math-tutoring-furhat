@@ -30,6 +30,21 @@ fun parseMathMethod(method: MathMethod?): String? {
     return null;
 }
 
+fun parseMathMethodWContain(response: String): String? {
+    if (response.contains("addition") || response.contains("summation") || response.contains("summing") || response.contains("adding")) {
+        return ADDITION;
+    } else if (response.contains("multiplication") || response.contains("multiplying")) {
+        return MULTIPLICATION;
+    } else if (response.contains("division") || response.contains("splitting") || response.contains("dividing")) {
+        return DIVISION;
+    } else if (response.contains("percentage") || response.contains("module") || response.contains("remainder")) {
+        return PERCENTAGE;
+    }
+
+    return null;
+}
+
+
 fun resetUserExerciseData(user: User) {
     user.wrongAnswers = 0
     user.correctAnswers = 0
@@ -177,6 +192,11 @@ fun isCorrectPercentage(input: String, percentage: Int): Boolean {
     if (s == "$percentage%" || s == "$percentage %" || s == "$percentage percent") {
         return true;
     }
+
+    if (s.contains("$percentage%") || s.contains("$percentage %") || s.contains("$percentage percent")) {
+        return true;
+    }
+
     return false;
 }
 

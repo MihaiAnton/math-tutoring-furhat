@@ -8,7 +8,9 @@ import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.division.DivisionExplanation
 import furhatos.app.mathtutor.flow.states.division.DivisionPractice1
 import furhatos.app.mathtutor.flow.states.multiplication.PercentagePractice1
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
+import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -29,7 +31,7 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
             furhat.say("Percentages Explanation")
         } else {
             furhat.gesture(Gestures.Nod(strength=0.4))
-            furhat.say("Very good. We can formulate this is as follows: I have $share percent of the marbles. " +
+            furhat.say("Very good. We can formulate this as follows: I have $share percent of the marbles. " +
                     "Percent literally means per hundred. If we have a specific number of items and a total number " +
                     "of these items, we can always express this number as a percentage. " +
                     "${furhat.voice.pause("500ms")} If there are $newTotal " +
@@ -59,6 +61,18 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
             resetWrongAnswers(users.current)
             goto(PercentagePractice1(newTotal))
         } else {
+            wrongAnswer(users.current)
+            goto(WrongPercentage1(newTotal, newShare))
+        }
+    }
+
+    onResponse<StringAnswer> {
+        val result = it.intent.response;
+        if(isCorrectPercentage(it.text, newShare)){
+            resetWrongAnswers(users.current)
+            goto(PercentagePractice1(newTotal))
+        }
+        else{
             wrongAnswer(users.current)
             goto(WrongPercentage1(newTotal, newShare))
         }

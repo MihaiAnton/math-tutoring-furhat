@@ -55,7 +55,7 @@ class PercentageResponse(val fraction: Number = Number(1), val total: Number = N
 
 class PercentageResponse2(val fraction: Number = Number(1)) : ComplexEnumEntity() {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("@fraction / 100", "@fraction divided by 100", "@fraction", "@fraction percent")
+        return listOf("@fraction / 100", "@fraction divided by 100", "@fraction", "@fraction percent", "@fraction out of 100")
     }
 }
 
