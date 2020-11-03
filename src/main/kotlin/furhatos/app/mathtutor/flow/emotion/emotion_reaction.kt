@@ -16,7 +16,7 @@ fun reactToEmotion(): State = state {
         if (useEmotion) {
             updateEmotionFromApi(users.current)
             if (users.current.rollingValence < VALENCE_THRESHOLD) {
-                send("FrustrationEvent")
+                send("ConfusionEvent")
                 terminate()
             }
         }

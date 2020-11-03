@@ -77,6 +77,11 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         }
     }
 
+    onEvent("ConfusionEvent") {
+        furhat.say("You look confused. Let me repeat the question")
+        reentry()
+    }
+
     onResponse<RepeatQuestionIntent> {
         furhat.say("I'll repeat the question.")
         reentry()

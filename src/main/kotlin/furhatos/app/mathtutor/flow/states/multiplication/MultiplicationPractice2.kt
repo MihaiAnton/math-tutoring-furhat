@@ -43,6 +43,11 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         }
     }
 
+    onEvent("ConfusionEvent") {
+        furhat.say("You look confused. Let me repeat the question")
+        reentry()
+    }
+
     onResponse<RepeatQuestionIntent> {
         furhat.say("I'll repeat the question.")
         reentry()
