@@ -2,7 +2,6 @@ package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
-import furhatos.app.mathtutor.flow.emotion.getEmotionFromApi
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.OptionsIntent

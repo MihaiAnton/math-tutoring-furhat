@@ -67,6 +67,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
                 // TODO more randomness
                 furhat.say("Let's see if you got them right on the second try.")
             }
+            goto(ExerciseEvaluation(subject))
         }
     }
 

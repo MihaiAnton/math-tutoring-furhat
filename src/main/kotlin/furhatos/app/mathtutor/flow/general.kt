@@ -14,7 +14,7 @@ fun debugMode(): Boolean {
     return false
 }
 
-var useEmotion = false
+var useEmotion = true
 
 val Idle : State = state {
     /*

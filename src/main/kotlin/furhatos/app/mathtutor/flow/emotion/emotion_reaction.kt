@@ -8,16 +8,16 @@ import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.users
 import furhatos.gestures.Gestures
-import furhatos.records.User
+
+const val VALENCE_THRESHOLD = -0.2
 
 fun reactToEmotion(): State = state {
     onTime(0, 1000) {
         if (useEmotion) {
-            val userEmotion = getEmotionFromApi(users.current)
-            when {
-                userEmotion.name == "frustrated" -> furhat.gesture(Gestures.Thoughtful(strength = userEmotion.arousal, duration = 2.0), async = false)
-                userEmotion.name == "satisfied" -> furhat.gesture(Gestures.Smile(strength = userEmotion.arousal, duration = 2.0), async = false)
-                userEmotion.name == "excited" -> furhat.gesture(Gestures.BigSmile(strength = userEmotion.arousal, duration = 2.0), async = false)
+            updateEmotionFromApi(users.current)
+            if (users.current.rollingValence < VALENCE_THRESHOLD) {
+                send("FrustrationEvent")
+                terminate()
             }
         }
     }
