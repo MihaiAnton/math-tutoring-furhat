@@ -39,7 +39,8 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
             goto(MultiplicationPractice2(value))
         } else {
             wrongAnswer(users.current)
-            goto(WrongMultiplication1(times, value))
+            call(wrongMultiplication)
+            reentry()
         }
     }
 

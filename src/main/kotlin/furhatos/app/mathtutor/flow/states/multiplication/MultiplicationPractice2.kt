@@ -7,7 +7,6 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.AdditionResponse
-import furhatos.app.mathtutor.nlu.MultiplicationResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
@@ -39,7 +38,8 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
             goto(MultiplicationFinal)
         } else {
             wrongAnswer(users.current)
-            goto(WrongMultiplication2(x));
+            call(wrongMultiplication)
+            reentry()
         }
     }
 

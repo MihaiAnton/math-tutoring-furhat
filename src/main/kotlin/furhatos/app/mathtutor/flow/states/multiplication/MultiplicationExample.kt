@@ -5,8 +5,6 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
-import furhatos.app.mathtutor.flow.states.addition.WrongAddition1
-import furhatos.app.mathtutor.flow.states.addition.WrongAddition2
 import furhatos.app.mathtutor.nlu.AdditionResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -42,7 +40,8 @@ fun MultiplicationExample(x: Int): State = state(Interaction) {
         if (3 * x != sum) {
             delay(1000)
             wrongAnswer(users.current)
-            goto(WrongAddition2(x))
+            call(wrongMultiplication)
+            reentry()
         }
         else{
             resetWrongAnswers(users.current)
