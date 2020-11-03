@@ -17,10 +17,16 @@ val OptionsSelection: State = state {
             furhat.say("Options Selection")
         } else {
             random(
+                    { furhat.say ("Ok, ${users.current.name}" ) },
+                    { furhat.say ( "Cool, ${users.current.name}" ) },
+                    { furhat.say ( "Perfect, ${users.current.name}" ) },
+                    { furhat.say ( "Here we go, ${users.current.name}" ) }
+            )
+            random(
                     { furhat.say("Please tell me which calculation you want to practice.") },
                     { furhat.say("Which calculation method do you want to practice?") },
                     { furhat.say("Please tell me which method of calculation you wish to practice.") },
-                    { furhat.say("What is the calulation method that you want to practice?") }
+                    { furhat.say("What is the calculation method that you want to practice?") }
             )
         }
         parallel {
@@ -48,10 +54,9 @@ val OptionsSelection: State = state {
     onResponse<StringAnswer> {
         val result = it.intent.response;
         val method = parseMathMethodWContain(it.text);
-        if(method == null){
+        if (method == null) {
             goto(UnwillingUserIntro)
-        }
-        else{
+        } else {
             goto(StartTutorial(method))
         }
     }

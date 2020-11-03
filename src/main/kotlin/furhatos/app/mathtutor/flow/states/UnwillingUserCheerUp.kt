@@ -28,7 +28,8 @@ val UnwillingUserCheerUp = state {
     }
 
     onResponse<Yes> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 
     onResponse<UnwillingIntent> {

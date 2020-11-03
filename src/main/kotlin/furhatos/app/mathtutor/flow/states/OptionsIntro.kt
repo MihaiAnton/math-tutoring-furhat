@@ -34,7 +34,8 @@ val OptionsIntro = state {
     }
 
     onResponse<StartIntent> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 
     onResponse<MoreIntent> {

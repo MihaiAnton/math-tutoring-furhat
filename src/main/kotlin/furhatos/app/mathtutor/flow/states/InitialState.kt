@@ -61,15 +61,18 @@ val InitialState = state {
     }
 
     onResponse<Yes> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
+
 
     onResponse<No> {
         goto(OptionsIntro)
     }
 
     onResponse<StartIntent> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 
     onResponse<OptionsIntent> {

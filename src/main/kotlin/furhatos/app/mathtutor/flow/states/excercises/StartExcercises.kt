@@ -19,10 +19,10 @@ fun StartExercises(subject: String?): State = state(Interaction) {
             furhat.say("Start Exercises")
         } else {
             random(
-                    {furhat.say("Okay, let's start with the exercises. Good luck!")},
-                    {furhat.say("Let's start with the exercises. Have fun!")},
-                    {furhat.say("Alright, let's begin. Good luck with the exercises!")},
-                    {furhat.say("Time to begin with the exercises. I hope you enjoy it!")}
+                    {furhat.say("Okay, ${users.current.name}, let's start with the exercises. Good luck!")},
+                    {furhat.say("${users.current.name}, Let's start with the exercises. Have fun!")},
+                    {furhat.say("Alright ${users.current.name}, let's begin. Good luck with the exercises!")},
+                    {furhat.say("Time to begin with the exercises, ${users.current.name}. I hope you enjoy it!")}
             )
         }
         delay(1000)
