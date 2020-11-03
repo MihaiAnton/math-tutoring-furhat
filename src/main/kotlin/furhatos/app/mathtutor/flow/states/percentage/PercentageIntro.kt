@@ -5,7 +5,10 @@ import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
+import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -33,13 +36,17 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         if (debugMode()) {
             furhat.say("Percentage Intro")
         } else {
-            furhat.say("Imagine I have $_share marbles, and you have $_oppShare marbles. Then there are $total " +
-                    "marbles in total. You can express the number of marbles I have as a division of the total " +
-                    "number of marbles. Can you tell me this division expression?")
+            furhat.say("Imagine I have $_share marbles, ${furhat.voice.pause("500ms")} " +
+                    "and you have $_oppShare marbles. Then there are $_total " +
+                    "marbles in total. ${furhat.voice.pause("500ms")}" +
+                    "You can express the number of marbles I have as a division of the total " +
+                    "number of marbles. ${furhat.voice.pause("500ms")} " +
+                    "Can you tell me this division expression?")
         }
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }
 
@@ -50,14 +57,39 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         furhat.listen(timeout = 15000)
     }
 
-    onResponse<PercentageResponse> {
-        val _totalResponse = it.intent.total.value;
-        val _shareResponse = it.intent.total.value;
+    onResponse<PercentageResponse2> {
+        val _totalResponse = 100
+        val _shareResponse = it.intent.fraction.value;
 
         if (_totalResponse == _total && _share == _shareResponse) {
             resetWrongAnswers(users.current)
             goto(PercentagesExplanation(_total, _share))
         } else {
+            wrongAnswer(users.current)
+            goto(WrongPercentage(_total, _share))
+        }
+    }
+
+    onResponse<PercentageResponse> {
+        val _totalResponse = it.intent.total.value;
+        val _shareResponse = it.intent.fraction.value;
+
+        if (_totalResponse == _total && _share == _shareResponse) {
+            resetWrongAnswers(users.current)
+            goto(PercentagesExplanation(_total, _share))
+        } else {
+            wrongAnswer(users.current)
+            goto(WrongPercentage(_total, _share))
+        }
+    }
+
+    onResponse<StringAnswer> {
+        val result = it.intent.response;
+        if(isCorrectPercentage(it.text, _share)){
+            resetWrongAnswers(users.current)
+            goto(PercentagesExplanation(_total, _share))
+        }
+        else{
             wrongAnswer(users.current)
             goto(WrongPercentage(_total, _share))
         }

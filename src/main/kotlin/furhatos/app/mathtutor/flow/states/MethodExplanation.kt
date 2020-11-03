@@ -18,6 +18,7 @@ val MethodExplanation = state {
                     "chosen calculation. Afterwards, I will test your understanding by giving you exercises.")
         }
         delay(1000)
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 }

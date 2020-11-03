@@ -6,28 +6,31 @@ import furhatos.app.mathtutor.flow.states.InitialState
 
 import furhatos.app.mathtutor.DIVISION
 import furhatos.app.mathtutor.PERCENTAGE
+import furhatos.app.mathtutor.flow.gaze.dataDrivenGaze
 import furhatos.app.mathtutor.flow.states.*
+import furhatos.app.mathtutor.flow.states.division.DivisionFinal
 import furhatos.app.mathtutor.flow.states.division.DivisionIntro
 import furhatos.app.mathtutor.flow.states.excercises.Exercise
 import furhatos.app.mathtutor.flow.states.excercises.ExercisesWrong2
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.flow.states.multiplication.*
+import furhatos.app.mathtutor.flow.states.percentage.PercentageIntro
+import furhatos.app.mathtutor.flow.states.percentage.PercentagesExplanation
 import furhatos.app.mathtutor.nlu.*
-import furhatos.app.spaceshipattendant.flow.gaze.RuleBasedGaze
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.*
 
-val CustomGaze = RuleBasedGaze;
+val CustomGaze = dataDrivenGaze;
 val Start = state(Interaction) {
     onEntry {
 
         // Generic TODO: at each question we have to check if we need a longer timeout. (Maybe when we have to think about answers to questions)
 
-        parallel{
-            getEmotionFromApi(users.current)
-        }
+//        parallel{
+//            getEmotionFromApi(users.current)
+//        }
 
-        goto(InitialState)
+        goto(StartExplanation(DIVISION))
     }
 //
 //    onTime(0, 1000){

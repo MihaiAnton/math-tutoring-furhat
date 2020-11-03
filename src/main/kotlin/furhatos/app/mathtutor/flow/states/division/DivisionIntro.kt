@@ -31,12 +31,14 @@ fun DivisionIntro(total: Int? = null, perDay: Int? = null): State = state(Intera
         if (debugMode()) {
             furhat.say("Division Intro")
         } else {
-            furhat.say("Imagine I pick $_perDay apples for every day this week. If, at some point, I have " +
-                    "$_applesTotal apples, how many days have I been picking apples?")
+            furhat.say("Imagine I pick $_perDay apples for every day this week. ${furhat.voice.pause("500ms")}" +
+                    "If, at some point, I have " +
+                    "$_applesTotal apples, ${furhat.voice.pause("500ms")} how many days have I been picking apples?")
         }
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
     }
 
@@ -51,7 +53,7 @@ fun DivisionIntro(total: Int? = null, perDay: Int? = null): State = state(Intera
         val days = it.intent.days.value;
         if (days == _applesTotal / _perDay) {
             resetWrongAnswers(users.current)
-            goto(DivisionExplanation(_perDay, _applesTotal))
+            goto(DivisionExplanation(_applesTotal, _perDay))
         } else {
             wrongAnswer(users.current)
             goto(WrongDivision(_applesTotal, _perDay))

@@ -15,6 +15,9 @@ fun WrongDivisionCalculation(total: Int? = null, perDay: Int? = null): State = s
         parallel {
             goto(CustomGaze)
         }
+        parallel {
+            goto(CustomGaze)
+        }
         furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse, DIVISION))
         delay(1000)
         goto(DivisionPractice1(total, perDay))

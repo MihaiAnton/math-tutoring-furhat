@@ -52,6 +52,7 @@ val InitialState = state {
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000);
     }
 
@@ -60,15 +61,18 @@ val InitialState = state {
     }
 
     onResponse<Yes> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
+
 
     onResponse<No> {
         goto(OptionsIntro)
     }
 
     onResponse<StartIntent> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 
     onResponse<OptionsIntent> {

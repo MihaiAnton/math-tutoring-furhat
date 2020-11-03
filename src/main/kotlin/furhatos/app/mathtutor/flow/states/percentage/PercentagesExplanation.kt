@@ -8,10 +8,13 @@ import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.flow.states.division.DivisionExplanation
 import furhatos.app.mathtutor.flow.states.division.DivisionPractice1
 import furhatos.app.mathtutor.flow.states.multiplication.PercentagePractice1
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
+import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 import kotlin.random.Random
 
 fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = state(Interaction) {
@@ -27,14 +30,19 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
         if (debugMode()) {
             furhat.say("Percentages Explanation")
         } else {
-            furhat.say("Very good. We can formulate this is as follows: I have $share percent of the marbles. " +
+            furhat.gesture(Gestures.Nod(strength=0.4))
+            furhat.say("Very good. We can formulate this as follows: I have $share percent of the marbles. " +
                     "Percent literally means per hundred. If we have a specific number of items and a total number " +
-                    "of these items, we can always express this number as a percentage. If there are $newTotal " +
-                    "marbles still, and I have $newShare, what is the percentage of marbles I have?")
+                    "of these items, we can always express this number as a percentage. " +
+                    "${furhat.voice.pause("500ms")} If there are $newTotal " +
+                    "marbles still, ${furhat.voice.pause("500ms")} " +
+                    "and I have $newShare, ${furhat.voice.pause("500ms")} " +
+                    "what is the percentage of marbles I have?")
         }
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 15000)
     }
 
@@ -47,12 +55,24 @@ fun PercentagesExplanation(total: Int? = null, share: Int? = null): State = stat
 
     onResponse<PercentageResponse> {
         val _totalResponse = it.intent.total.value;
-        val _shareResponse = it.intent.total.value;
+        val _shareResponse = it.intent.fraction.value;
 
         if (_totalResponse == newTotal && _shareResponse == newShare) {
             resetWrongAnswers(users.current)
-            goto(PercentagePractice1())
+            goto(PercentagePractice1(newTotal))
         } else {
+            wrongAnswer(users.current)
+            goto(WrongPercentage1(newTotal, newShare))
+        }
+    }
+
+    onResponse<StringAnswer> {
+        val result = it.intent.response;
+        if(isCorrectPercentage(it.text, newShare)){
+            resetWrongAnswers(users.current)
+            goto(PercentagePractice1(newTotal))
+        }
+        else{
             wrongAnswer(users.current)
             goto(WrongPercentage1(newTotal, newShare))
         }

@@ -22,8 +22,10 @@ val UnwillingTwice = state {
     }
 
     onResponse<ExercisesIntent> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
+
 
     onResponse<UnwillingIntent> {
         goto(FinalState(true))

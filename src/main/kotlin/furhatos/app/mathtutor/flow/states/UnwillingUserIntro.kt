@@ -3,10 +3,7 @@ package furhatos.app.mathtutor.flow.states;
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.nlu.Unsure
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onNoResponse
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.*
 
 val UnwillingUserIntro = state {
     onEntry {
@@ -27,6 +24,7 @@ val UnwillingUserIntro = state {
                             "on?")}
             )
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 10000)
     }
 

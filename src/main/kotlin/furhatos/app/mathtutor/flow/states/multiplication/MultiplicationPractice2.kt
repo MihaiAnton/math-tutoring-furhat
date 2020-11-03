@@ -11,6 +11,7 @@ import furhatos.app.mathtutor.nlu.MultiplicationResponse
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 
 fun MultiplicationPractice2(x: Int): State = state(Interaction) {
     onEntry {
@@ -20,12 +21,14 @@ fun MultiplicationPractice2(x: Int): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Multiplication Practice 2")
         } else {
+            furhat.gesture(Gestures.Nod(strength=0.4))
             furhat.say("You are doing very well. Following this method, tell me what happens if two more people " +
-                    "with $x apples join. More specifically, what is the solution of five times $x?")
+                    "with $x apples join. ${furhat.voice.pause("500ms")} More specifically, what is the solution of five times $x?")
         }
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000)
     }
 

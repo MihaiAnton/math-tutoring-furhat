@@ -33,12 +33,13 @@ fun MultiplicationIntro(x1: Int? = null): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Multiplication Intro, $_x1 and $_x1")
         } else {
-            furhat.say("Imagine I have $_x1 apples, and you have $_x1 apples as well. How many apples do we " +
+            furhat.say("Imagine I have $_x1 apples, ${furhat.voice.pause("500ms")} and you have $_x1 apples as well. ${furhat.voice.pause("500ms")} How many apples do we " +
                     "have together?")
         }
         parallel {
             goto(reactToEmotion())
         }
+        furhat.glance(users.current)
         furhat.listen(timeout = 15000)
     }
 
