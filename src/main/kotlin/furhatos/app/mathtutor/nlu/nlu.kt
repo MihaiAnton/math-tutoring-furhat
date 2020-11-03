@@ -59,9 +59,29 @@ class PercentageResponse2(val fraction: Number = Number(1)) : ComplexEnumEntity(
     }
 }
 
-class CorrectDivisionResponse : EnumEntity()
-class CorrectMultiplicationResponse : EnumEntity()
-class CorrectPercentageResponse : EnumEntity()
+class MyNameIsResponse(val name: String = "") : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("Call me @name", "My name is @name", "I'm @name", "I am @name")
+    }
+}
+
+class CorrectDivisionResponse : EnumEntity() {
+    override fun getConfidenceThreshold(): Double {
+        return 0.2
+    }
+}
+
+class CorrectMultiplicationResponse : EnumEntity() {
+    override fun getConfidenceThreshold(): Double {
+        return 0.2
+    }
+}
+
+class CorrectPercentageResponse : EnumEntity() {
+    override fun getConfidenceThreshold(): Double {
+        return 0.2
+    }
+}
 
 
 class NumericAnswer(val number: Number = Number(0)) : ComplexEnumEntity() {
@@ -86,9 +106,9 @@ class MoreExercisesIntent : Intent()
 
 class DifferentCalculationIntent : Intent()
 
-class UnwillingIntent: Intent()
+class UnwillingIntent : Intent()
 
-class Unsure: Intent()
+class Unsure : Intent()
 
 class DoContinue : Intent()
 

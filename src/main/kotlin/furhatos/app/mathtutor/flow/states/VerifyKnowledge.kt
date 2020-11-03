@@ -12,11 +12,9 @@ import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation1
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation2
 import furhatos.app.mathtutor.flow.states.multiplication.MultiplicationIntro
 import furhatos.app.mathtutor.flow.states.percentage.PercentageIntro
-import furhatos.app.mathtutor.nlu.CorrectDivisionResponse
-import furhatos.app.mathtutor.nlu.CorrectMultiplicationResponse
-import furhatos.app.mathtutor.nlu.CorrectPercentageResponse
-import furhatos.app.mathtutor.nlu.MathMethod
+import furhatos.app.mathtutor.nlu.*
 import furhatos.flow.kotlin.*
+import furhatos.nlu.common.DontKnow
 import furhatos.nlu.common.No
 
 fun VerifyKnowledge(subject: String?): State = state(Interaction) {
@@ -54,50 +52,51 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
         goto(WrongExplanation2(subject))
     }
 
-
-    if (subject == MULTIPLICATION) {
-        onResponse<CorrectMultiplicationResponse> {
-
-        }
-
-        onResponse {
-            if (isConfident(users.current)) {
-                goto(StartExercises(subject))
-            } else {
-                goto(WrongExplanation1(subject))
-            }
-        }
-
-    } else if (subject == DIVISION) {
+    if (subject == DIVISION) {
         onResponse<CorrectDivisionResponse> {
             goto(StartExercises(subject))
         }
-
-        onResponse {
-            if (isConfident(users.current)) {
-                goto(StartExercises(subject))
-            } else {
-                goto(WrongExplanation1(subject))
-            }
+    } else if (subject == MULTIPLICATION) {
+        onResponse<CorrectMultiplicationResponse> {
+            goto(StartExercises(subject))
         }
-
     } else if (subject == PERCENTAGE) {
         onResponse<CorrectPercentageResponse> {
             goto(StartExercises(subject))
         }
+    }
 
-        onResponse {
-            if (isConfident(users.current)) {
-                goto(StartExercises(subject))
-            } else {
-                goto(WrongExplanation1(subject))
-            }
+    onResponse<DontKnow> {
+        goto(WrongExplanation2(subject))
+    }
+
+    onResponse {
+        if (correctExplanation(subject!!, it.text)) {
+            goto(StartExercises(subject))
+        } else {
+            goto(WrongExplanation1(subject))
+        }
+    }
+}
+
+fun correctExplanation(subject: String, text: String): Boolean {
+    val words = text.split("[ \\.,']+")
+    var topicCount = 0
+    var topics: List<String> = arrayListOf("")
+
+    if (subject == MULTIPLICATION) {
+        topics = arrayListOf("times", "plus", "addition", "add", "factor", "multiply", "multiplication")
+    } else if (subject == DIVISION) {
+        topics = arrayListOf("division", "divided", "fits", "fit", "inside", "minus", "add", "addition")
+    } else if (subject == PERCENTAGE) {
+        topics = arrayListOf("fraction", "division", "hundred", "total", "percentage", "portion", "part")
+    }
+
+    for (t in topics) {
+        if (words[0].contains(t)) {
+            topicCount += 1
         }
     }
 
-
-
-    onResponse {
-        goto(WrongExplanation1(subject))
-    }
+    return topicCount >= 2
 }
