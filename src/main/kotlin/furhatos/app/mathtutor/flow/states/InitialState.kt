@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.OptionsIntent
 import furhatos.app.mathtutor.nlu.StartIntent
+import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
@@ -15,13 +16,9 @@ import furhatos.nlu.common.Yes
 
 val InitialState = state {
     onEntry {
-        // Change the default thresholds:
-
         parallel {
             goto(CustomGaze)
         }
-
-
 
         if (debugMode()) {
             furhat.say("Initial State")
@@ -58,7 +55,6 @@ val InitialState = state {
     }
 
     onResponse<Yes> {
-//        goto(OptionsSelection)
         goto(WhatsYourName)
     }
 
@@ -68,12 +64,15 @@ val InitialState = state {
     }
 
     onResponse<StartIntent> {
-//        goto(OptionsSelection)
         goto(WhatsYourName)
     }
 
     onResponse<OptionsIntent> {
         goto(OptionsIntro)
+    }
+
+    onResponse<UnwillingIntent> {
+        goto(UnwillingUserIntro)
     }
 
     onResponse { // Catches everything else

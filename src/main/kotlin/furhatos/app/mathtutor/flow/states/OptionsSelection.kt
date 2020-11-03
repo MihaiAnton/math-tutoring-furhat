@@ -51,23 +51,17 @@ val OptionsSelection: State = state {
         goto(StartTutorial(method))
     }
 
-    onResponse<StringAnswer> {
-        val result = it.intent.response;
-        val method = parseMathMethodWContain(it.text);
-        if (method == null) {
-            goto(UnwillingUserIntro)
-        } else {
-            goto(StartTutorial(method))
-        }
-    }
-
-
     onResponse<UnwillingIntent> {
         goto(UnwillingUserIntro)
     }
 
     onResponse {
-        furhat.say(getUncaughtResponseText())
-        reentry()
+        val method = parseMathMethodWContain(it.text);
+        if (method == null) {
+            furhat.say(getUncaughtResponseText())
+            reentry()
+        } else {
+            goto(StartTutorial(method))
+        }
     }
 }
