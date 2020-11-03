@@ -4,10 +4,13 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.MultiplicationResponse
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 
 fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) {
     onEntry {
@@ -17,13 +20,14 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
         if (debugMode()) {
             furhat.say("Multiplication Practice 1")
         } else {
-            furhat.say("Very well. Can you tell me  how we can formulate this as a multiplication?")
+            furhat.gesture(Gestures.Nod(strength=0.4))
+            furhat.say("Very well. Can you tell me how we can formulate this as a multiplication?")
         }
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.glance(users.current)
         furhat.listen(timeout = 10000)
-    }
-
-    onReentry {
-        furhat.listen(timeout=6000)
     }
 
     onResponse<MultiplicationResponse> {
@@ -39,9 +43,14 @@ fun MultiplicationPractice1(times: Int, value: Int): State = state(Interaction) 
         }
     }
 
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
+    }
+
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout=6000)
     }
 
 }

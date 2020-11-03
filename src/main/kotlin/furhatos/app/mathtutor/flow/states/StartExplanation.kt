@@ -11,6 +11,7 @@ import furhatos.app.mathtutor.nlu.MathMethod
 import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.users
 
 fun StartExplanation(subject: String?): State = state(Interaction) {
     onEntry {
@@ -21,11 +22,11 @@ fun StartExplanation(subject: String?): State = state(Interaction) {
             furhat.say("Start Explanation")
         } else {
             random(
-                    {furhat.say("Okay, let's start the explanation of $subject.")},
-                    {furhat.say("Alright, let's continue with $subject.")},
-                    {furhat.say("Good. Then I will now tell you all about $subject.")},
-                    {furhat.say("Great, let me explain $subject to you then.")},
-                    {furhat.say("Amazing, let's start with the explanation of computing ${subject}s.")}
+                    {furhat.say("Okay ${users.current.name}, let's start the explanation of $subject.")},
+                    {furhat.say("Alright ${users.current.name}, let's continue with $subject.")},
+                    {furhat.say("Good ${users.current.name}. Then I will now tell you all about $subject.")},
+                    {furhat.say("Great ${users.current.name}, let me explain $subject to you then.")},
+                    {furhat.say("Amazing ${users.current.name}, let's start with the explanation of computing ${subject}s.")}
             )
         }
 

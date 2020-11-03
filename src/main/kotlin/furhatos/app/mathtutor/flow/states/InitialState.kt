@@ -21,25 +21,36 @@ val InitialState = state {
         parallel {
             goto(CustomGaze)
         }
-        parallel {
-            goto(reactToEmotion())
-        }
+
+
 
         if (debugMode()) {
             furhat.say("Initial State")
         } else {
             random(
-                    {furhat.say("Hello, welcome to this math tutoring session. Do you want to start right away or" +
-                            " find out about the available options?")},
-                    {furhat.say("Hi there, welcome to this math lesson. Do you want to start practicing right " +
-                            "away, or do you want to hear about the options first?")},
-                    {furhat.say("Hello and welcome to today's lesson! Do you want to start the tutoring session " +
-                            "right away, or would you rather hear about the available options first?")},
-                    {furhat.say("Hello there, nice of you to join today's session! Do you want to start with the " +
-                            "tutoring, or rather hear about all the options?")}
+                    {
+                        furhat.say("Hello, welcome to this math tutoring session. Do you want to start right away or" +
+                                " find out about the available options?")
+                    },
+                    {
+                        furhat.say("Hi there, welcome to this math lesson. Do you want to start practicing right " +
+                                "away, or do you want to hear about the options first?")
+                    },
+                    {
+                        furhat.say("Hello and welcome to today's lesson! Do you want to start the tutoring session " +
+                                "right away, or would you rather hear about the available options first?")
+                    },
+                    {
+                        furhat.say("Hello there, nice of you to join today's session! Do you want to start with the " +
+                                "tutoring, or rather hear about all the options?")
+                    }
             )
         }
 
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000);
     }
 
@@ -48,15 +59,18 @@ val InitialState = state {
     }
 
     onResponse<Yes> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
+
 
     onResponse<No> {
         goto(OptionsIntro)
     }
 
     onResponse<StartIntent> {
-        goto(OptionsSelection)
+//        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 
     onResponse<OptionsIntent> {

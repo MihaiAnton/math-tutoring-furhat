@@ -1,5 +1,6 @@
 package furhatos.app.mathtutor.flow.states.addition;
 
+import furhatos.app.mathtutor.ADDITION
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.getGenericWrongResponse
@@ -22,7 +23,7 @@ fun WrongAddition1(x1: Int? = null): State = state(Interaction) {
         }
 
 
-        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse))
+        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse, ADDITION))
         delay(1000);
         goto(MultiplicationIntro(x1));
     }

@@ -1,8 +1,10 @@
 package furhatos.app.mathtutor.flow.states.percentage;
 
+import furhatos.app.mathtutor.PERCENTAGE
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.getGenericWrongResponse
+import furhatos.app.mathtutor.flow.emotion.wrongResponseReaction
 import furhatos.app.mathtutor.wrongConsecutiveResponse
 import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
@@ -14,7 +16,10 @@ fun WrongPercentage1 (total: Int? = null, share: Int? = null): State = state(Int
         parallel {
             goto(CustomGaze)
         }
-        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse))
+        parallel {
+            goto(wrongResponseReaction())
+        }
+        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse, PERCENTAGE))
         delay(1000)
         goto(PercentagesExplanation(total, share))
     }

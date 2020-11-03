@@ -1,18 +1,14 @@
 package furhatos.app.mathtutor.flow.states;
 
-import furhatos.app.mathtutor.DIVISION
-import furhatos.app.mathtutor.MULTIPLICATION
-import furhatos.app.mathtutor.PERCENTAGE
+import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.*
-import furhatos.app.mathtutor.parseMathMethod
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.flow.kotlin.*
 
-val OptionsSelection = state {
+val OptionsSelection: State = state {
     onEntry {
         parallel {
             goto(CustomGaze)
@@ -21,12 +17,22 @@ val OptionsSelection = state {
             furhat.say("Options Selection")
         } else {
             random(
-                    {furhat.say("Please tell me which calculation you want to practice.")},
-                    {furhat.say("Which calculation method do you want to practice?")},
-                    {furhat.say("Please tell me which method of calculation you wish to practice.")},
-                    {furhat.say("What is the calulation method that you want to practice?")}
+                    { furhat.say ("Ok, ${users.current.name}" ) },
+                    { furhat.say ( "Cool, ${users.current.name}" ) },
+                    { furhat.say ( "Perfect, ${users.current.name}" ) },
+                    { furhat.say ( "Here we go, ${users.current.name}" ) }
+            )
+            random(
+                    { furhat.say("Please tell me which calculation you want to practice.") },
+                    { furhat.say("Which calculation method do you want to practice?") },
+                    { furhat.say("Please tell me which method of calculation you wish to practice.") },
+                    { furhat.say("What is the calculation method that you want to practice?") }
             )
         }
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.glance(users.current)
         furhat.listen(timeout = 6000)
     }
 
@@ -35,6 +41,7 @@ val OptionsSelection = state {
             goto(UnwillingUserIntro)
         } else {
             furhat.say("Remember, you can choose between multiplication, division, and percentages.")
+            furhat.glance(users.current)
             furhat.listen(timeout = 6000)
         }
     }
@@ -42,8 +49,18 @@ val OptionsSelection = state {
     onResponse<LearningMathMethod> {
         val method = parseMathMethod(it.intent.subject);
         goto(StartTutorial(method))
-
     }
+
+    onResponse<StringAnswer> {
+        val result = it.intent.response;
+        val method = parseMathMethodWContain(it.text);
+        if (method == null) {
+            goto(UnwillingUserIntro)
+        } else {
+            goto(StartTutorial(method))
+        }
+    }
+
 
     onResponse<UnwillingIntent> {
         goto(UnwillingUserIntro)

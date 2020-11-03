@@ -6,11 +6,11 @@ import furhatos.records.User
 
 const val FORGET_RATE = 0.8
 
-var User.lastValence : Double by NullSafeUserDataDelegate { 0.0 }
-var User.lastArousal : Double by NullSafeUserDataDelegate { 0.0 }
+var User.lastValence: Double by NullSafeUserDataDelegate { 0.0 }
+var User.lastArousal: Double by NullSafeUserDataDelegate { 0.0 }
 
-var User.rollingValence : Double by NullSafeUserDataDelegate { 0.0 }
-var User.rollingArousal : Double by NullSafeUserDataDelegate { 0.0 }
+var User.rollingValence: Double by NullSafeUserDataDelegate { 0.0 }
+var User.rollingArousal: Double by NullSafeUserDataDelegate { 0.0 }
 
 
 var User.correctAnswers by NullSafeUserDataDelegate { 0 }
@@ -23,3 +23,5 @@ var User.attemptsDivision by NullSafeUserDataDelegate { 0 }
 var User.attemptsPercentage by NullSafeUserDataDelegate { 0 }
 
 var User.wrongConsecutiveResponse by NullSafeUserDataDelegate { 0 }
+
+var User.name by NullSafeUserDataDelegate { "" }

@@ -4,11 +4,14 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.nlu.DivisionExpressionResponse
 import furhatos.app.mathtutor.nlu.DivisionResponse
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 import kotlin.random.Random
 
 fun DivisionPractice2(): State = state(Interaction) {
@@ -23,14 +26,15 @@ fun DivisionPractice2(): State = state(Interaction) {
         if (debugMode()) {
             furhat.say("Division Practice 2")
         } else {
-            furhat.say("Alright! Can you now tell me what the solution of $newTotal divided by $newPerDay is?")
+            furhat.gesture(Gestures.Nod(strength=0.4))
+            furhat.say("Alright! Can you now tell me what the solution of $newTotal " +
+                    "${furhat.voice.pause("500ms")} divided by $newPerDay is?")
         }
-
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.glance(users.current)
         furhat.listen(timeout = 30000)
-    }
-
-    onReentry {
-        furhat.listen(timeout = 15000)
     }
 
     onResponse<DivisionResponse> {
@@ -46,9 +50,14 @@ fun DivisionPractice2(): State = state(Interaction) {
         }
     }
 
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
+    }
+
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout = 15000)
     }
 
 }

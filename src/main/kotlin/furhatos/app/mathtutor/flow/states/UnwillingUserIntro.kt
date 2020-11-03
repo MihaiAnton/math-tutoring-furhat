@@ -2,10 +2,8 @@ package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onNoResponse
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
+import furhatos.app.mathtutor.nlu.Unsure
+import furhatos.flow.kotlin.*
 
 val UnwillingUserIntro = state {
     onEntry {
@@ -22,27 +20,40 @@ val UnwillingUserIntro = state {
                     {furhat.say("It makes me sad that you are not as crazy about math as I am. Why are you " +
                             "not excited?")},
                     {furhat.say("What's wrong then? Why are you not as excited for this tutoring session as I am?")},
-                    {furhat.say("I find it sad that you don't seem to want to join my lesson. What is going on?")}
+                    {furhat.say("I find it a shame that you don't seem to want to join my lesson. What is going " +
+                            "on?")}
             )
         }
-        furhat.listen(timeout = 15000)
-    }
-
-    onReentry {
+        furhat.glance(users.current)
         furhat.listen(timeout = 10000)
     }
 
-    onResponse {
-        // TODO: Figure out how to motivate student
+    onReentry {
+        furhat.listen(timeout = 5000)
+    }
+
+    onResponse<Unsure> {
         random(
-                {furhat.say("")}
+                {furhat.say("Go on, tell me, I want to help you.")},
+                {furhat.say("Don't be shy, I just want to help you!")},
+                {furhat.say("Don't worry, we're just having a little conversation. Tell me what's up.")},
+                {furhat.say("Tell me, perhaps I can help, you know!")},
+                {furhat.say("Come on, let it out. You will feel better when you tell me what's wrong.")}
         )
+        reentry()
+    }
+
+    onResponse {
+        goto(UnwillingUserCheerUp)
     }
 
     onNoResponse {
         random(
                 {furhat.say("Go on, tell me, I want to help you.")},
-                {furhat.say("Don't be shy, I just want to help you!")}
+                {furhat.say("Don't be shy, I just want to help you!")},
+                {furhat.say("Don't worry, we're just having a little conversation. Tell me what's up.")},
+                {furhat.say("Tell me, perhaps I can help, you know!")},
+                {furhat.say("Come on, let it out. You will feel better when you tell me what's wrong.")}
         )
         reentry()
     }

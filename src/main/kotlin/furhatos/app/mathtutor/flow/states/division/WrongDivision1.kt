@@ -1,8 +1,10 @@
 package furhatos.app.mathtutor.flow.states.division;
 
+import furhatos.app.mathtutor.DIVISION
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.emotion.getGenericWrongResponse
+import furhatos.app.mathtutor.flow.emotion.wrongResponseReaction
 import furhatos.app.mathtutor.wrongConsecutiveResponse
 import furhatos.flow.kotlin.State
 import furhatos.flow.kotlin.furhat
@@ -14,7 +16,10 @@ fun WrongDivision1(total: Int? = null, perDay: Int? = null): State = state(Inter
         parallel {
             goto(CustomGaze)
         }
-        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse))
+        parallel {
+            goto(wrongResponseReaction())
+        }
+        furhat.say(getGenericWrongResponse(users.current.wrongConsecutiveResponse, DIVISION))
         delay(1000);
         goto(DivisionExplanation(total, perDay));
     }

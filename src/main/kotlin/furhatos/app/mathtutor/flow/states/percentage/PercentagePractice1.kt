@@ -4,14 +4,19 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.states.percentage.PercentagesExplanation
+import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage
 import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage1
 import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage2
-import furhatos.app.mathtutor.nlu.MultiplicationResponse
-import furhatos.app.mathtutor.nlu.PercentageResponse
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
+import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
+import furhatos.gestures.Gestures
 
 fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(Interaction) {
 
@@ -22,16 +27,19 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         if (debugMode()) {
             furhat.say("Percentage Practice 1")
         } else {
-            furhat.say("Great. So far it was easy, our total was $total already. As a general rule, a percentage " +
+            furhat.gesture(Gestures.Nod(strength=0.4))
+            furhat.say("Great. So far it was easy, our total was 100 already. As a general rule, a percentage " +
                     "can be calculated by dividing the specified portion of items by the total number of items and " +
-                    "then multiplying this result with 100. Using this method, can you tell me what is the " +
-                    "percentage of my marbles if I have 1 and there are 2 in total?")
+                    "then multiplying this result with 100. ${furhat.voice.pause("500ms")} " +
+                    "Using this method, can you tell me what is the " +
+                    "percentage of my marbles if I have 1 ${furhat.voice.pause("500ms")} " +
+                    "and there are 2 in total?")
         }
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.glance(users.current)
         furhat.listen(timeout = 20000);
-    }
-
-    onReentry {
-        furhat.listen(timeout = 10000)
     }
 
     onResponse<PercentageResponse2> {
@@ -46,9 +54,26 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         }
     }
 
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
+    }
+
+     onResponse<StringAnswer> {
+        val result = it.intent.response;
+        if(isCorrectPercentage(it.text, 50)){
+            resetWrongAnswers(users.current)
+            goto(PercentagePractice2())
+        }
+        else{
+            wrongAnswer(users.current)
+            goto(WrongPercentage2)
+        }
+    }
+
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout = 10000)
     }
 
 }

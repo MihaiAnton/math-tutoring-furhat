@@ -3,6 +3,8 @@ package furhatos.app.mathtutor.flow.states.excercises;
 import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
+import furhatos.app.mathtutor.flow.emotion.reactToEmotion
+import furhatos.app.mathtutor.flow.emotion.wrongResponseReaction
 import furhatos.app.mathtutor.flow.states.StartExplanation
 import furhatos.app.mathtutor.flow.states.UnwillingUserIntro
 import furhatos.app.mathtutor.flow.states.VerifyKnowledge
@@ -16,9 +18,16 @@ fun ExercisesWrong2(subject: String?): State = state(Interaction) {
         parallel {
             goto(CustomGaze)
         }
-        furhat.say("Exercises Wrong 2")
+        parallel {
+            goto(wrongResponseReaction())
+        }
+        furhat.say("There were still some mistakes in your answers, are you sure you understand $subject correctly or would you like some explanation?")
         resetUserExerciseData(users.current)
-        furhat.listen()
+        parallel {
+            goto(reactToEmotion())
+        }
+        furhat.glance(users.current)
+        furhat.listen(timeout = 20000)
     }
 
     onResponse<IKnowItResponse> {
