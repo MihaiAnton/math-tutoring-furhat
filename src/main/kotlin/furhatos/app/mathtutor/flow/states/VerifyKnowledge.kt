@@ -12,10 +12,7 @@ import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation1
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation2
 import furhatos.app.mathtutor.flow.states.multiplication.MultiplicationIntro
 import furhatos.app.mathtutor.flow.states.percentage.PercentageIntro
-import furhatos.app.mathtutor.nlu.CorrectDivisionResponse
-import furhatos.app.mathtutor.nlu.CorrectMultiplicationResponse
-import furhatos.app.mathtutor.nlu.CorrectPercentageResponse
-import furhatos.app.mathtutor.nlu.MathMethod
+import furhatos.app.mathtutor.nlu.*
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.DontKnow
 import furhatos.nlu.common.No
@@ -55,6 +52,20 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
         goto(WrongExplanation2(subject))
     }
 
+    if (subject == DIVISION) {
+        onResponse<CorrectDivisionResponse> {
+            goto(StartExercises(subject))
+        }
+    } else if (subject == MULTIPLICATION) {
+        onResponse<CorrectMultiplicationResponse> {
+            goto(StartExercises(subject))
+        }
+    } else if (subject == PERCENTAGE) {
+        onResponse<CorrectPercentageResponse> {
+            goto(StartExercises(subject))
+        }
+    }
+
     onResponse<DontKnow> {
         goto(WrongExplanation2(subject))
     }
@@ -68,7 +79,7 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
     }
 }
 
-fun correctExplanation(subject: String, text: String) : Boolean {
+fun correctExplanation(subject: String, text: String): Boolean {
     val words = text.split("[ \\.,']+")
     var topicCount = 0
     var topics: List<String> = arrayListOf("")
@@ -82,10 +93,10 @@ fun correctExplanation(subject: String, text: String) : Boolean {
     }
 
     for (t in topics) {
-        if (words.contains(t)) {
+        if (words[0].contains(t)) {
             topicCount += 1
         }
     }
 
-    return topicCount >= 3
+    return topicCount >= 2
 }

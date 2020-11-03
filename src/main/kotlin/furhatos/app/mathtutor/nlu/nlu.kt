@@ -65,9 +65,23 @@ class MyNameIsResponse(val name: String = "") : ComplexEnumEntity() {
     }
 }
 
-class CorrectDivisionResponse : EnumEntity()
-class CorrectMultiplicationResponse : EnumEntity()
-class CorrectPercentageResponse : EnumEntity()
+class CorrectDivisionResponse : EnumEntity() {
+    override fun getConfidenceThreshold(): Double {
+        return 0.2
+    }
+}
+
+class CorrectMultiplicationResponse : EnumEntity() {
+    override fun getConfidenceThreshold(): Double {
+        return 0.2
+    }
+}
+
+class CorrectPercentageResponse : EnumEntity() {
+    override fun getConfidenceThreshold(): Double {
+        return 0.2
+    }
+}
 
 
 class NumericAnswer(val number: Number = Number(0)) : ComplexEnumEntity() {

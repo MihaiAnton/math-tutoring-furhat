@@ -30,7 +30,7 @@ val Start = state(Interaction) {
 //            getEmotionFromApi(users.current)
 //        }
 
-        goto(StartExplanation(DIVISION))
+        goto(InitialState)
     }
 //
 //    onTime(0, 1000){
