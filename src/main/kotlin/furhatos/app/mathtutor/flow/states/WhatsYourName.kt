@@ -4,11 +4,8 @@ import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.name
-import furhatos.app.mathtutor.nlu.MyNameIsResponse
-import furhatos.flow.kotlin.furhat
-import furhatos.flow.kotlin.onResponse
-import furhatos.flow.kotlin.state
-import furhatos.flow.kotlin.users
+import furhatos.flow.kotlin.*
+import furhatos.nlu.common.TellName
 
 val WhatsYourName = state {
     onEntry {
@@ -45,18 +42,13 @@ val WhatsYourName = state {
         furhat.listen(timeout = 10000)
     }
 
-    onResponse<MyNameIsResponse> {
+    onResponse<TellName> {
         val name = it.intent.name
-        users.current.name = name.value.toString()
+        users.current.name = name.toString()
         goto(OptionsSelection)
     }
 
-    onResponse { // Catches everything else
-        furhat.say("Ok, let's move on")
-        goto(OptionsSelection)
-    }
-
-    onTime(delay = 20000) {
+    onNoResponse {
         furhat.say("Ok, let's move on")
         goto(OptionsSelection)
     }
