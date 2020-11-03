@@ -8,6 +8,7 @@ import furhatos.app.mathtutor.flow.emotion.reactToEmotion
 import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
@@ -50,13 +51,6 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         furhat.listen(timeout = 30000)
     }
 
-    onReentry {
-        parallel {
-            goto(reactToEmotion())
-        }
-        furhat.listen(timeout = 15000)
-    }
-
     onResponse<PercentageResponse2> {
         val _totalResponse = 100
         val _shareResponse = it.intent.fraction.value;
@@ -83,6 +77,11 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
         }
     }
 
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
+    }
+
     onResponse<StringAnswer> {
         val result = it.intent.response;
         if(isCorrectPercentage(it.text, _share)){
@@ -97,6 +96,6 @@ fun PercentageIntro(total: Int? = null, share: Int? = null): State = state(Inter
 
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout = 15000)
     }
 }

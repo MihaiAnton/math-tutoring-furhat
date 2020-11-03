@@ -10,9 +10,8 @@ import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage
 import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage1
 import furhatos.app.mathtutor.flow.states.percentage.WrongPercentage2
 import furhatos.app.mathtutor.isCorrectPercentage
-import furhatos.app.mathtutor.nlu.MultiplicationResponse
-import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.PercentageResponse2
+import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
@@ -43,13 +42,6 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
         furhat.listen(timeout = 20000);
     }
 
-    onReentry {
-        parallel {
-            goto(reactToEmotion())
-        }
-        furhat.listen(timeout = 10000)
-    }
-
     onResponse<PercentageResponse2> {
         val fraction = it.intent.fraction.value;
 
@@ -60,6 +52,11 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
             wrongAnswer(users.current)
             goto(WrongPercentage2)
         }
+    }
+
+    onResponse<RepeatQuestionIntent> {
+        furhat.say("I'll repeat the question.")
+        reentry()
     }
 
      onResponse<StringAnswer> {
@@ -76,7 +73,7 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
 
     onResponse {
         furhat.say(getUncaughtResponseText())
-        reentry()
+        furhat.listen(timeout = 10000)
     }
 
 }
