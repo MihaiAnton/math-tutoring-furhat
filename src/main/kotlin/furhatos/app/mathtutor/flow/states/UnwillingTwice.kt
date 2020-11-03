@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.flow.emotion.mirrorEmotion
 import furhatos.app.mathtutor.nlu.ExercisesIntent
 import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.furhat
+import furhatos.flow.kotlin.onNoResponse
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 import furhatos.nlu.common.Yes
@@ -22,13 +23,13 @@ val UnwillingTwice = state {
             furhat.say("Unwilling twice")
         } else {
             furhat.say("I won't stay in the way if you really don't want. It is your benefit after all. Are you sure you don't want to learn?")
+            furhat.listen(10000)
         }
     }
 
     onResponse<ExercisesIntent> {
         goto(WhatsYourName)
     }
-
 
     onResponse<UnwillingIntent> {
         goto(FinalState(true))
@@ -38,7 +39,7 @@ val UnwillingTwice = state {
         goto(FinalState(true))
     }
 
-    onTime(10000) {
+    onNoResponse{
         goto(FinalState(true))
     }
 }

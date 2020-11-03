@@ -1,10 +1,12 @@
 package furhatos.app.mathtutor.flow
 
 import furhatos.app.mathtutor.flow.gaze.dataDrivenGaze
-import furhatos.app.mathtutor.flow.states.InitialState
+import furhatos.app.mathtutor.flow.states.*
 import furhatos.flow.kotlin.state
 
-val CustomGaze = dataDrivenGaze;
+var useEmotion = true
+val CustomGaze = dataDrivenGaze
+
 val Start = state(Interaction) {
     onEntry {
         goto(InitialState)

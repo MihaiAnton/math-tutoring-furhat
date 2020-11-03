@@ -5,6 +5,7 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.mirrorEmotion
 import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.furhat
+import furhatos.flow.kotlin.onNoResponse
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
 import furhatos.nlu.common.No
@@ -23,6 +24,7 @@ val UnwillingUserCheerUp = state {
         } else {
             // TODO maybe some randomness here, since we can get in this state quite often
             furhat.say("I understand, I can relate sometimes. But don't forget that we are in this together! With the two of us we can make math a lot of fun, you know. Give it a go and join me this session. Are you in?")
+            furhat.listen(timeout = 10000)
         }
     }
 
@@ -38,7 +40,7 @@ val UnwillingUserCheerUp = state {
         goto(UnwillingTwice)
     }
 
-    onTime(10000) {
+    onNoResponse {
         furhat.say("Let's give it a try!")
         goto(WhatsYourName)
     }
