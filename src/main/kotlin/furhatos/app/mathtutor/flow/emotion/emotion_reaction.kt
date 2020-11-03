@@ -9,7 +9,7 @@ import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.users
 import furhatos.gestures.Gestures
 
-const val VALENCE_THRESHOLD = -0.2
+const val VALENCE_THRESHOLD = -0.3
 
 fun reactToEmotion(): State = state {
     onTime(0, 1000) {
@@ -26,7 +26,6 @@ fun reactToEmotion(): State = state {
 
 fun wrongResponseReaction(): State = state {
     onEntry {
-        println("Wrong answer " + users.current.wrongConsecutiveResponse)
         when {
             users.current.wrongConsecutiveResponse == 0 -> {
                 furhat.gesture(Gestures.Thoughtful(strength = 0.2))
