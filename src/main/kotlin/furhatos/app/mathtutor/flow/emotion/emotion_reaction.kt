@@ -28,9 +28,11 @@ val mirrorEmotion: State = state {
         if (useEmotion) {
             updateEmotionFromApi(users.current)
             if (users.current.rollingValence > 0) {
-                furhat.gesture(Gestures.Smile(strength = users.current.rollingArousal))
+                furhat.gesture(Gestures.BigSmile(strength = users.current.rollingArousal * 2, duration = 2.0))
+//                println("Smile ${users.current.rollingArousal * 2}")
             } else {
-                furhat.gesture(Gestures.Thoughtful(strength = users.current.rollingArousal))
+                furhat.gesture(Gestures.BrowFrown(strength = users.current.rollingArousal * 2, duration = 2.0))
+//                println("Frown ${users.current.rollingArousal * 2}")
             }
         }
     }

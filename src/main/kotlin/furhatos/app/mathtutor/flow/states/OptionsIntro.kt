@@ -5,6 +5,7 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.MoreIntent
 import furhatos.app.mathtutor.nlu.StartIntent
+import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
 import furhatos.flow.kotlin.state
@@ -23,20 +24,23 @@ val OptionsIntro = state {
         }
 
         furhat.glance(users.current)
-        furhat.listen(timeout = 6000)
+        furhat.listen(timeout = 20000)
     }
 
     onReentry {
-        furhat.listen(timeout = 4000)
+        furhat.listen(timeout = 10000)
     }
 
     onResponse<StartIntent> {
-//        goto(OptionsSelection)
         goto(WhatsYourName)
     }
 
     onResponse<MoreIntent> {
         goto(MethodExplanation)
+    }
+
+    onResponse<UnwillingIntent> {
+        goto(UnwillingUserIntro)
     }
 
     onResponse {

@@ -54,7 +54,6 @@ val InitialState = state {
         goto(WhatsYourName)
     }
 
-
     onResponse<No> {
         goto(OptionsIntro)
     }

@@ -2,6 +2,7 @@ package furhatos.app.mathtutor.flow.states;
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.mirrorEmotion
 import furhatos.app.mathtutor.nlu.Unsure
 import furhatos.flow.kotlin.*
 
@@ -11,7 +12,7 @@ val UnwillingUserIntro = state {
             goto(CustomGaze)
         }
         parallel {
-            goto(CustomGaze)
+            goto(mirrorEmotion)
         }
         if (debugMode()) {
             furhat.say("Unwilling User Intro")

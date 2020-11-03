@@ -1,8 +1,8 @@
 package furhatos.app.mathtutor.flow.states
 
-
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.mirrorEmotion
 import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.furhat
 import furhatos.flow.kotlin.onResponse
@@ -14,6 +14,9 @@ val UnwillingUserCheerUp = state {
     onEntry {
         parallel {
             goto(CustomGaze)
+        }
+        parallel {
+            goto(mirrorEmotion)
         }
         if (debugMode()) {
             furhat.say("Unwilling user cheer up")
@@ -28,7 +31,6 @@ val UnwillingUserCheerUp = state {
     }
 
     onResponse<Yes> {
-//        goto(OptionsSelection)
         goto(WhatsYourName)
     }
 
@@ -38,6 +40,6 @@ val UnwillingUserCheerUp = state {
 
     onTime(10000) {
         furhat.say("Let's give it a try!")
-        goto(OptionsSelection)
+        goto(WhatsYourName)
     }
 }

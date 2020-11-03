@@ -2,6 +2,7 @@ package furhatos.app.mathtutor.flow.states
 
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.mirrorEmotion
 import furhatos.app.mathtutor.nlu.ExercisesIntent
 import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.furhat
@@ -14,6 +15,9 @@ val UnwillingTwice = state {
         parallel {
             goto(CustomGaze)
         }
+        parallel {
+            goto(mirrorEmotion)
+        }
         if (debugMode()) {
             furhat.say("Unwilling twice")
         } else {
@@ -22,7 +26,6 @@ val UnwillingTwice = state {
     }
 
     onResponse<ExercisesIntent> {
-//        goto(OptionsSelection)
         goto(WhatsYourName)
     }
 

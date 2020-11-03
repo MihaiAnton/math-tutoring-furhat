@@ -4,8 +4,6 @@ import furhatos.flow.kotlin.NullSafeUserDataDelegate
 
 import furhatos.records.User
 
-const val FORGET_RATE = 0.8
-
 var User.lastValence: Double by NullSafeUserDataDelegate { 0.0 }
 var User.lastArousal: Double by NullSafeUserDataDelegate { 0.0 }
 

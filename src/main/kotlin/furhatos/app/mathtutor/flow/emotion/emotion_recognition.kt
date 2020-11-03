@@ -5,6 +5,8 @@ import furhatos.records.User
 import java.lang.NumberFormatException
 import java.net.ConnectException
 
+const val FORGET_RATE = 0.8
+
 fun updateEmotionFromApi(user: User) {
     try {
         val response = khttp.get("http://127.0.0.1:5000/get_emotion").text

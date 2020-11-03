@@ -4,6 +4,7 @@ import furhatos.app.mathtutor.*
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.Interaction
 import furhatos.app.mathtutor.flow.debugMode
+import furhatos.app.mathtutor.flow.emotion.mirrorEmotion
 import furhatos.app.mathtutor.flow.states.excercises.StartExercises
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation1
 import furhatos.app.mathtutor.flow.states.excercises.WrongExplanation2
@@ -16,6 +17,9 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
     onEntry {
         parallel {
             goto(CustomGaze)
+        }
+        parallel {
+            goto(mirrorEmotion)
         }
         if (debugMode()) {
             furhat.say("Verify Knowledge on $subject.")

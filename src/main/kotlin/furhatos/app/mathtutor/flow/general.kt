@@ -14,8 +14,6 @@ fun debugMode(): Boolean {
     return false
 }
 
-var useEmotion = true
-
 val Idle : State = state {
     /*
         On the first run only, if we have users in interaction

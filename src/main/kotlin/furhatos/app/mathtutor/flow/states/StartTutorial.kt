@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.nlu.ExercisesIntent
 import furhatos.app.mathtutor.nlu.ExplanationIntent
+import furhatos.app.mathtutor.nlu.UnwillingIntent
 import furhatos.flow.kotlin.*
 
 
@@ -43,6 +44,10 @@ fun StartTutorial(subject: String?): State = state(Interaction) {
 
     onResponse<ExplanationIntent> {
         goto(StartExplanation(subject))
+    }
+
+    onResponse<UnwillingIntent> {
+        goto(UnwillingUserIntro)
     }
 
     onResponse {
