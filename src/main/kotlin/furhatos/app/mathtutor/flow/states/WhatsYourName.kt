@@ -47,7 +47,7 @@ val WhatsYourName = state {
 
     onResponse<MyNameIsResponse> {
         val name = it.intent.name
-        users.current.name = name
+        users.current.name = name.value.toString()
         goto(OptionsSelection)
     }
 

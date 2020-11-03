@@ -2,6 +2,7 @@ package furhatos.app.mathtutor.nlu
 
 import furhatos.nlu.*
 import furhatos.nlu.common.Number
+import furhatos.nlu.common.PersonName
 import furhatos.util.Language
 
 
@@ -59,9 +60,9 @@ class PercentageResponse2(val fraction: Number = Number(1)) : ComplexEnumEntity(
     }
 }
 
-class MyNameIsResponse(val name: String = "") : ComplexEnumEntity() {
+class MyNameIsResponse(val name: PersonName = PersonName()) : ComplexEnumEntity() {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Call me @name", "My name is @name", "I'm @name", "I am @name")
+        return listOf("@name", "Call me @name", "My name is @name", "I'm @name", "I am @name")
     }
 }
 
