@@ -2,7 +2,6 @@ package furhatos.app.mathtutor.nlu
 
 import furhatos.nlu.*
 import furhatos.nlu.common.Number
-import furhatos.nlu.common.PersonName
 import furhatos.util.Language
 
 
@@ -48,21 +47,10 @@ class DivisionExpressionResponse(val times: Number = Number(1), val value: Numbe
     }
 }
 
-class PercentageResponse(val fraction: Number = Number(1), val total: Number = Number(1)) : ComplexEnumEntity() {
+class PercentageResponse(val fraction: Number? = null, val total: Number = Number(100)) : ComplexEnumEntity() {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("@fraction / @total", "@fraction divided by @total")
-    }
-}
-
-class PercentageResponse2(val fraction: Number = Number(1)) : ComplexEnumEntity() {
-    override fun getEnum(lang: Language): List<String> {
-        return listOf("@fraction / 100", "@fraction divided by 100", "@fraction", "@fraction percent", "@fraction out of 100")
-    }
-}
-
-class MyNameIsResponse(val name: PersonName = PersonName()) : ComplexEnumEntity() {
-    override fun getEnum(lang: Language): List<String> {
-        return listOf("@name", "Call me @name", "My name is @name", "I'm @name", "I am @name")
+        return listOf("@fraction / @total", "@fraction divided by @total", "@fraction",
+                "@fraction percent", "@fraction out of @total", "@factor %")
     }
 }
 
