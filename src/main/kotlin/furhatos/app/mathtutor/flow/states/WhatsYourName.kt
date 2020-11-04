@@ -3,6 +3,7 @@ package furhatos.app.mathtutor.flow.states;
 import furhatos.app.mathtutor.flow.CustomGaze
 import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.name
+import furhatos.app.mathtutor.nlu.MyNameIsResponse
 import furhatos.flow.kotlin.*
 import furhatos.nlu.common.TellName
 
@@ -36,6 +37,12 @@ val WhatsYourName = state {
 
     onReentry {
         furhat.listen(timeout = 10000)
+    }
+
+    onResponse<MyNameIsResponse> {
+        val name = it.intent.name
+        users.current.name = name.toString()
+        goto(OptionsSelection)
     }
 
     onResponse<TellName> {

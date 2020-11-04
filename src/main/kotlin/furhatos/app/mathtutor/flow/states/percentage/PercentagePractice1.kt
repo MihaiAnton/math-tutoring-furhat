@@ -6,8 +6,10 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.flow.states.percentage.wrongPercentage
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
+import furhatos.app.mathtutor.nlu.StringAnswer
 import furhatos.app.mathtutor.resetWrongAnswers
 import furhatos.app.mathtutor.wrongAnswer
 import furhatos.flow.kotlin.*
@@ -50,6 +52,7 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
             reentry()
         }
     }
+
 
     onEvent("ConfusionEvent") {
         furhat.say("You look confused. Let me repeat the question")

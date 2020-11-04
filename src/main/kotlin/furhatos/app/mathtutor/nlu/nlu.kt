@@ -2,6 +2,7 @@ package furhatos.app.mathtutor.nlu
 
 import furhatos.nlu.*
 import furhatos.nlu.common.Number
+import furhatos.nlu.common.PersonName
 import furhatos.util.Language
 
 
@@ -69,6 +70,12 @@ class CorrectMultiplicationResponse : EnumEntity() {
 class CorrectPercentageResponse : EnumEntity() {
     override fun getConfidenceThreshold(): Double {
         return 0.2
+    }
+}
+
+class MyNameIsResponse(val name: furhatos.nlu.common.PersonName = PersonName()) : ComplexEnumEntity() {
+    override fun getEnum(lang: Language): List<String> {
+        return listOf("Call me @name", "My name is @name", "I'm @name", "I am @name")
     }
 }
 
