@@ -55,7 +55,7 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
 
 
     onEvent("ConfusionEvent") {
-        furhat.say("You look confused. Let me repeat the question")
+        furhat.say("It's okay to be confused. This was a tough question. Let me repeat it for you.")
         reentry()
     }
 

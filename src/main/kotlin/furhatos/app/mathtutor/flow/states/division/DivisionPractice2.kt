@@ -51,7 +51,7 @@ fun DivisionPractice2(): State = state(Interaction) {
     }
 
     onEvent("ConfusionEvent") {
-        furhat.say("You look confused. Let me repeat the question")
+        furhat.say("It's okay to be confused. This was a tough question. Let me repeat it for you.")
         reentry()
     }
 
