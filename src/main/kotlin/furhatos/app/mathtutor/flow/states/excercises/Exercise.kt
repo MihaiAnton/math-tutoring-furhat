@@ -48,7 +48,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
 
             furhat.say(question.question)
             furhat.glance(users.current)
-            furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)
+            furhat.listen(endSil = 3000, maxSpeech = 30 * 1000, timeout = 20000)
         } else if (redoWrong && exerciseId < users.current.wrongQuestions.size) {
             _responseType = users.current.wrongQuestions[exerciseId].responseType
             _question = users.current.wrongQuestions[exerciseId]
@@ -58,7 +58,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
                 goto(detectConfusion)
             }
             furhat.glance(users.current)
-            furhat.listen(endSil = 2000, maxSpeech = 30 * 1000, timeout = 20000)
+            furhat.listen(endSil = 3000, maxSpeech = 30 * 1000, timeout = 20000)
         } else {
             if (!redoWrong) {
                 // TODO more randomness
@@ -77,6 +77,11 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
     }
 
     onResponse<Yes> {
+        if (_question != null && _question!!.category == PERCENTAGE && _question!!.responseType == INTEGER_RESPONSE
+                && isCorrectPercentage(it.text, _question!!.response.toInt())) {
+            if (!redoWrong) users.current.correctAnswers++
+            if (redoWrong) users.current.wrongAnswers--
+        }
         if (_question != null && _responseType == YES_NO_RESPONSE && _question!!.response == "Yes") {
             if (!redoWrong) users.current.correctAnswers++
             if (redoWrong) users.current.wrongAnswers--
@@ -98,6 +103,8 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
         goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
 
+
+
     onResponse<NumericAnswer> {
         val result = it.intent.number;
         if (_question != null && _responseType == INTEGER_RESPONSE && _question!!.response.toInt() == result.value) {
@@ -113,7 +120,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
     onResponse<StringAnswer> {
         val result = it.intent.response;
         if (_question != null && _question!!.category == PERCENTAGE && _question!!.responseType == INTEGER_RESPONSE
-                && isCorrectPercentage(result, _question!!.response.toInt())) {
+                && isCorrectPercentage(it.text, _question!!.response.toInt())) {
             if (!redoWrong) users.current.correctAnswers++
             if (redoWrong) users.current.wrongAnswers--
 
@@ -126,6 +133,7 @@ fun Exercise(subject: String?, exerciseId: Int = 0, redoWrong: Boolean = false):
         }
         goto(Exercise(subject, exerciseId + 1, redoWrong))
     }
+
 
     onResponse {
         if (!redoWrong) users.current.wrongAnswers++;

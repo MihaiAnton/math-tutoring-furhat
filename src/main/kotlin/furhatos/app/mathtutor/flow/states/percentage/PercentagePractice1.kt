@@ -65,7 +65,7 @@ fun PercentagePractice1(total: Int? = null, share: Int? = null): State = state(I
     }
 
     onResponse {
-        if (it.text.contains("%") || it.text.contains("percent")) {
+        if (it.text.contains("%") || it.text.contains("percent")  || isCorrectPercentage(it.text, 50)) {
             if (it.text.contains("50")) {
                 resetWrongAnswers(users.current)
                 goto(PercentagePractice2())

@@ -51,7 +51,7 @@ class DivisionExpressionResponse(val times: Number = Number(1), val value: Numbe
 class PercentageResponse(val fraction: Number? = null, val total: Number = Number(100)) : ComplexEnumEntity() {
     override fun getEnum(lang: Language): List<String> {
         return listOf("@fraction / @total", "@fraction divided by @total", "@fraction",
-                "@fraction percent", "@fraction out of @total", "@factor %")
+                "@fraction percent", "@fraction out of @total", "@fraction %")
     }
 }
 

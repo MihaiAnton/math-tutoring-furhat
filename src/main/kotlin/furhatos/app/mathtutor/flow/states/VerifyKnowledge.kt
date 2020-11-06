@@ -37,7 +37,7 @@ fun VerifyKnowledge(subject: String?): State = state(Interaction) {
         }
 
         furhat.glance(users.current)
-        furhat.listen(timeout = 30000)
+        furhat.listen(timeout = 30000, endSil = 2000)
     }
 
     onResponse<No> {

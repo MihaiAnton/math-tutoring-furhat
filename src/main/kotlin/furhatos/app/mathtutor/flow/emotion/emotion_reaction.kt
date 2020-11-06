@@ -9,7 +9,7 @@ import furhatos.flow.kotlin.state
 import furhatos.flow.kotlin.users
 import furhatos.gestures.Gestures
 
-const val VALENCE_THRESHOLD = -0.3
+const val VALENCE_THRESHOLD = -0.2
 
 val detectConfusion: State = state {
     onTime(0, 1000) {

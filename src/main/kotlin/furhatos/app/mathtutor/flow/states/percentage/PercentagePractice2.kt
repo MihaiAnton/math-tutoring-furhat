@@ -6,6 +6,7 @@ import furhatos.app.mathtutor.flow.debugMode
 import furhatos.app.mathtutor.flow.emotion.getUncaughtResponseText
 import furhatos.app.mathtutor.flow.emotion.detectConfusion
 import furhatos.app.mathtutor.flow.states.percentage.*
+import furhatos.app.mathtutor.isCorrectPercentage
 import furhatos.app.mathtutor.nlu.PercentageResponse
 import furhatos.app.mathtutor.nlu.RepeatQuestionIntent
 import furhatos.app.mathtutor.resetWrongAnswers
@@ -71,7 +72,7 @@ fun PercentagePractice2(total: Int? = null, share: Int? = null): State = state(I
     }
 
     onResponse {
-        if (it.text.contains("%") || it.text.contains("percent")) {
+        if (it.text.contains("%") || it.text.contains("percent")  || isCorrectPercentage(it.text, newShare * 5)) {
             if (it.text.contains((newShare * 5).toString())) {
                 resetWrongAnswers(users.current)
                 goto(PercentageFinal)
