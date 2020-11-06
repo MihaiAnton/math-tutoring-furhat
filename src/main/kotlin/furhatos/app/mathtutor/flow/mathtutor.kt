@@ -10,7 +10,7 @@ val CustomGaze = dataDrivenGaze
 
 val Start = state(Interaction) {
     onEntry {
-        goto(VerifyKnowledge(PERCENTAGE))
+        goto(InitialState)
     }
 }
 
