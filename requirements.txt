@@ -1,0 +1,33 @@
+absl-py @ file:///opt/concourse/worker/volumes/live/837f071a-1cd0-4669-4c19-49278d507aae/volume/absl-py_1600297538125/work
+astor==0.8.1
+bleach==1.5.0
+certifi==2020.6.20
+click==7.1.2
+cycler==0.10.0
+Flask==1.1.2
+gast @ file:///tmp/build/80754af9/gast_1597433534803/work
+grpcio @ file:///opt/concourse/worker/volumes/live/8b2ee759-8268-4f0f-6b5b-5ee71275aac0/volume/grpcio_1597430912663/work
+html5lib==0.9999999
+importlib-metadata @ file:///tmp/build/80754af9/importlib-metadata_1602276842396/work
+itsdangerous==1.1.0
+Jinja2==2.11.2
+kiwisolver==1.2.0
+Markdown @ file:///opt/concourse/worker/volumes/live/dab60894-cb02-497b-76b5-4c894cd9c845/volume/markdown_1603216474330/work
+MarkupSafe==1.1.1
+matplotlib==3.3.2
+mkl-fft==1.2.0
+mkl-random==1.1.1
+mkl-service==2.3.0
+numpy @ file:///opt/concourse/worker/volumes/live/3f9886a9-9d2f-4d0a-7e31-acf5536b90f1/volume/numpy_and_numpy_base_1596234665264/work
+opencv-python==4.4.0.44
+Pillow==8.0.1
+protobuf==3.13.0
+pyparsing==2.4.7
+python-dateutil==2.8.1
+six==1.15.0
+tensorboard==1.8.0
+tensorflow==1.8.0
+termcolor==1.1.0
+webencodings==0.5.1
+Werkzeug==1.0.1
+zipp @ file:///tmp/build/80754af9/zipp_1603306325174/work
